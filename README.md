@@ -3,14 +3,18 @@ A way to input numbers consistent with how they are spoken
 
 Collapsing mode
 12,345 would written in 3 strokes:
+```
 12,000
    300
     45
+```
 
 Gluing mode
 2024 would written in 2 strokes:
+```
 20
 ^24
+```
 
 Left hand defines the mode
 [FRPB] defines the first number

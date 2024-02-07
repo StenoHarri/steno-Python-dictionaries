@@ -53,10 +53,10 @@ def convert_steno_numbers_to_steno_keys(outline):
 
 def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=False):
     #The latest addition overwrites the previous entry at that location
-    with (open(dictionary_file)) as temp_dictionary:                                        #debug
+    with (open(dictionary_file, "r", encoding="utf-8")) as temp_dictionary:                                        #debug
     #with (open('C:\\Users\\harrry\\AppData\\Local\\plover\\plover\\' + dictionary_file, "r", encoding="utf-8")) as temp_dictionary: #Windows
-    #with (open("Library/Application Support/plover/"+ dictionary_file)) as temp_dictionary: #Macintosh
-    #with (open(".config/plover/"+ dictionary_file)) as temp_dictionary:                      #Linux
+    #with (open("Library/Application Support/plover/"+ dictionary_file, "r", encoding="utf-8")) as temp_dictionary: #Macintosh
+    #with (open(".config/plover/"+ dictionary_file, "r", encoding="utf-8")) as temp_dictionary:                      #Linux
         temp_dictionary = json.load(temp_dictionary)
         for outline in temp_dictionary:
             translated_phrase = temp_dictionary[outline]

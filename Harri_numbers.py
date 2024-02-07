@@ -48,7 +48,7 @@ starter_chord = {
 
 linker_chord = { #by linker, I mean if it can get combined into the zeroes, it will
     "#"   : True,
-    "KWR" : True,
+    "#KWR" : True,
     "#HRAO":True
 }
 

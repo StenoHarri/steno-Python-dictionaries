@@ -46,8 +46,10 @@ starter_chord = {
               "suffix(many)" : " mice "}
 }
 
-linker_chord = { #by linker, I mean, what gets combined into the zeroes
-    "#"   : True
+linker_chord = { #by linker, I mean if it can get combined into the zeroes, it will
+    "#"   : True,
+    "KWR" : True,
+    "#HRAO":True
 }
 
 

@@ -47,29 +47,29 @@ starter_chord = {
                 "suffix" : " "},
 
     #TWO starting tw_enty
-    "#TW"   : {"prefix" : "20",
+    "#TW"    : {"prefix" : "20",
                 "suffix" : " "},
    
    
     #N for starting n_ineteen
     "#TPH"   : {"prefix" : "19",
-                "suffix" : " "}
+                "suffix" : " "},
 
     #C for cents 
-    "#KR"   : {"prefix" : "{^.",
-               "suffix" : " }"}
+    "#KR"    : {"prefix" : "{^.",
+                "suffix" : " }"},
 
     #Po for pound
-    "#PO"   :  {"prefix" : "£",
-               "suffix" : ""}
+    "#PO"    : {"prefix" : "£",
+                "suffix" : ""},
 
     #DL for dollar
-    "#TKHRA"   :  {"prefix" : "$",
-               "suffix" : ""}
+    "#TKHRA" : {"prefix" : "$",
+                "suffix" : ""},
 
     #P for point or pennies
-    "#P"   :  {"prefix" : "{^.",
-               "suffix" : " }"}
+    "#P"     : {"prefix" : "{^.",
+                "suffix" : " }"}
 
     #I don't know what this does
     #"STPWO"   : {"prefix"       : "{",

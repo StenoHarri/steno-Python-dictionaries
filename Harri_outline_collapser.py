@@ -6,19 +6,21 @@ import json
 
 
 #The last dictionary, overwrites the previous dictionary
-list_of_dictionaries = ["Har-Mir-Plover", #Lowest priority
-                        "Aer-Lapwinguk",
-                        "Aer-Lapwing",
-                        "Har+Aer-Lapwing",
+list_of_dictionaries = ["Plover_main_without_compound_words", #Lowest priority
+                        "Lapwing",
+                        "Lapwing_UK",
+                        "Harri_additions_with_Lapwing_logic",
                         "Jos+Mir-Plover",
-                        "Har+Jos+Mir-Plover",
-                        "Har+Jos-Lapwing",
-                        "Aer+Jos+Mir-Plover",
-                        "Har+Jos-Jef-Phrasing",
-                        "Har-Biology",
-                        "Har-Titles",
-                        "Har-Subscript",
-                        "Har-User"] #Highest priority
+                        "Harri_additions_with_Josiah_logic",
+                        "Harri_additions_with_Lapwing&Josiah_logic",
+                        "Harri_additions_with_Jeff_logic",
+                        "Harri_personal_titles",
+                        "Harri_personal_biology",
+                        "Harri_personal_one_handed_fingerspelling",
+                        "Harri_personal_subscript",
+                        "st_ft_switching",
+                        "make_z_use_asterisk-Z",
+                        "Harri_personal_user"] #Highest priority
 
 
 
@@ -88,7 +90,8 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
             v/    → ^   = (.*[/X]#?\+?)   ([AOEU]+\/)    ([STKPWHRAO\*EU-].*)
             vS/   → ^S  = (.*[/X]#?\+?)   ([AOEU]+S\/)   ([TKPWHRAO\*EU-].*)
             EFT/  → ^ST = (.*[/X]#?\+?)   ([AOEU]+BGS\/) ([KPWHRAO\*EU-].*)
-           # vBGS/ → ^SK = (.*[/X]#?\+?)   ([AOEU]+S\/)   ([TKPWHRAO\*EU-].*)
+            vBGS/ → ^SK = (.*[/X]#?\+?)   ([AOEU]+S\/)   ([TKPWHRAO\*EU-].*)
+            vBGS/K→ ^SK = (.*[/X]#?\+?)   ([AOEU]+S\/)   ([TKPWHRAO\*EU-].*)
             vT/   → ^T  = (.*[/X]#?\+?)   ([AOEU]+T\/)   ([KPWHRAO\*EU-].*)
             vD/   → ^TK = (.*[/X]#?\+?)   ([AOEU]+D\/)   ([PWHRAO\*EU-].*)
             vPB/K → ^TKP= (.*[/X]#?\+?)   ([AOEU]+PB\/K) ([WHRAO\*EU-].*)
@@ -119,6 +122,8 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
 
             /KHUR      → FRP   = (.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?)(/KHUR)([/X].*)
             BG/KHUR    → *FRP  = (.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?)(BG/KHUR)([/X].*)
+            #PL/vPB     →FRPB
+
 
             Not added
             #^STKP=(.*[/X]#?\+?)  ([AOEU]+PB\/SKWR)([AO\*EU-].*)            ^STKPW → Vng- (*BLT)
@@ -169,6 +174,10 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
                     unchecked_outlines_to_add.append(match[1] + "^ST" + match[3])
                 #vBGS/  → ^SK
                 match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/)([PWHRAO\*EU-].*)', working_outline)
+                if match:
+                    unchecked_outlines_to_add.append(match[1] + "^SK" + match[3])
+                #vBGS/K → ^SK
+                match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/K)([PWHRAO\*EU-].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "^SK" + match[3])
                 #vT/   → ^T
@@ -321,8 +330,15 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
                 checked_outlines_to_add.append(working_outline)
                 ###########check for duplicates
                 unchecked_outlines_to_add =  list(set(unchecked_outlines_to_add) - set(checked_outlines_to_add))
-    
-            #checked_outlines_to_add.pop(0) #The original outline is valid but like, obviously I've already got it
+                #PL/vPB     →FRPB
+                match = re.fullmatch(r'(.*[/X]#?\+?S?T?K?P?W?H?R?A?O?E?U?)PL/[AOEU]+PB([L?G?T?S?D?Z?/X].*)', working_outline)
+                if match:
+                    unchecked_outlines_to_add.append(match[1] + "FRPB" + match[2])
+                checked_outlines_to_add.append(working_outline)
+                ###########check for duplicates
+                unchecked_outlines_to_add =  list(set(unchecked_outlines_to_add) - set(checked_outlines_to_add))
+
+            checked_outlines_to_add.pop(0) #The original outline is valid but like, obviously I've already got it
             length = 0
             for um_outline in checked_outlines_to_add:
                 collapsed_dictionary[str(um_outline.replace("X",''))] = translated_phrase

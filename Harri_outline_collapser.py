@@ -362,10 +362,11 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
                 ###########check for duplicates
                 unchecked_outlines_to_add =  list(set(unchecked_outlines_to_add) - set(checked_outlines_to_add))
 
-            checked_outlines_to_add.pop(0) #The original outline is valid but like, obviously I've already got it
+            #checked_outlines_to_add.pop(0) #The original outline is valid but like, obviously I've already got it
             for um_outline in checked_outlines_to_add:
-                collapsed_dictionary[str(um_outline.replace("X",''))] = translated_phrase
-            
+                if not um_outline == checked_outlines_to_add[0]:
+                    collapsed_dictionary[str(um_outline.replace("X",''))] = translated_phrase
+
     return collapsed_dictionary
 
 

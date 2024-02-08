@@ -29,28 +29,51 @@ LONGEST_KEY = 4
 
 starter_chord = {
     #In plover, {&} in the outline, means treat it like fingerspelling
-    "#*"   : {"prefix"       : "{&",
-              "suffix(one)"  : "}",
-              "suffix(many)" : "}"},
 
-    "#"    : {"prefix"       : " ",
-              "suffix(one)"  : " ",
-              "suffix(many)" : " "},
+   # just left it as #, if there's a conflict I don't know, asterisk it
+   "#"       : {"prefix" : " ",
+                "suffix" : " "},
+   
+   #KWR for sticking stuff, so no spacing
+   "#KWR"    : {"prefix" : "{^",
+              "suffix"   : "}"},
 
-    "#KWR" : {"prefix"       : " ",
-              "suffix(one)"  : " year ",
-              "suffix(many)" : " years "},
+    #KL for clock stuff
+    "#KHR"   : {"prefix" : "{^:",
+                "suffix" : "}"},
 
-    "#HRAO"  : {"prefix"     : " oh look, ",
-              "suffix(one)"  : " mouse ",
-              "suffix(many)" : " mice "}
+    #TWO starting tw_enty
+    "#TWO"   : {"prefix" : "20",
+                "suffix" : " "},
+   
+    #N for starting n_ineteen
+    "#TPH"   : {"prefix" : "19",
+                "suffix" : " "}
+
+    #I don't know what this does
+    #"STPWO"   : {"prefix"       : "{",
+    #          "suffix" : "/^}"},
+    #
+    # 
+    #"STPWAO"   : {"prefix"       : "{^-",
+    #          "suffix" : "}"},
+    #
+    #"STPR"    : {"prefix"       : " ",
+    #          "suffix" : " "},
+    #
+    #"STPRA"    : {"prefix"       : "-",
+    #           "suffix" : " "},
+    #
+
 }
 
 linker_chord = { #by linker, I mean if it can get combined into the zeroes, it will
-    "#"   : True,
-    "#KWR" : True,
-    "#HRAO":True
+    "#"       : True,
+    "STPRA"   : True,
+    "STPWO"   : True,
+    "STPRAO"  : True
 }
+
 
 
 primary_number = {
@@ -143,8 +166,9 @@ def lookup(strokes):
             if not (starter_chord[match[1]]):
                 raise KeyError
             prefix = starter_chord[match[1]]['prefix']
-            suffix_one = starter_chord[match[1]]['suffix(one)']
-            suffix_many = starter_chord[match[1]]['suffix(many)']
+            suffix = starter_chord[match[1]]['suffix']
+            #suffix_one = starter_chord[match[1]]['suffix(one)']
+            #suffix_many = starter_chord[match[1]]['suffix(many)']
 
             output_number+=(primary_number[match[3]]+
                             secondary_number[match[4]]+
@@ -160,10 +184,10 @@ def lookup(strokes):
             output_number = (output_number[0:len(output_number)-len(successive_numbers)]+
                              successive_numbers)
     
-    if output_number=='1':
-        suffix=suffix_one
-    else:
-        suffix=suffix_many
+    #if output_number=='1':
+    #    suffix=suffix_one
+    #else:
+    #    suffix=suffix_many
     
     return (prefix+
             output_number +

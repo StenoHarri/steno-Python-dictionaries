@@ -38,18 +38,42 @@ LONGEST_KEY = 4
 import os
 cwd = os.getcwd()
 
-def convert_steno_numbers_to_steno_keys(outline):
-    return outline.replace(
-            "0", "O").replace(
-                "1", "S").replace(
-                    "2", "T").replace(
-                        "3", "P").replace(
-                            "4", "H").replace(
-                                "5", "A").replace(
-                                    "6", "F").replace(
-                                        "7", "P").replace(
-                                            "8", "L").replace(
-                                                "9", "T")
+numbers_to_letters = {
+    "1": "S",
+    "2": "T",
+    "3": "P",
+    "4": "H",
+    "5": "A",
+    "6": "F",
+    "7": "P",
+    "8": "L",
+    "9": "T",
+    "0": "O"
+    }
+
+def aericks_denumberizer(old_outline):
+
+    old_strokes = old_outline.split("/")
+    new_strokes = []
+
+    for stroke in old_strokes:
+
+        new_strokes.append(stroke)
+
+        for match in numbers_to_letters.keys():
+
+            if match in stroke:
+
+                if new_strokes[-1][0] != "#":
+                    new_strokes[-1] = "#" + new_strokes[-1]
+
+                new_strokes[-1] = new_strokes[-1].replace(match, numbers_to_letters[match])
+
+        if new_strokes == []:
+            new_strokes = old_strokes
+
+    return "/".join(new_strokes)
+
 
 
 
@@ -67,8 +91,8 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
                     translated_phrase = "{" + translated_phrase[1].upper() + translated_phrase[2:]
                 else:
                     translated_phrase = translated_phrase[0].upper() + translated_phrase[1:]
-            if any(single_digit_number in "0123456789" for single_digit_number in outline):            
-                outline = "#" + convert_steno_numbers_to_steno_keys(outline)
+            
+            outline = aericks_denumberizer(outline)
 
 
             """

@@ -45,6 +45,11 @@ starter_chord = {
     #TWO starting tw_enty
     "#TWO"   : {"prefix" : "20",
                 "suffix" : " "},
+
+    #TWO starting tw_enty
+    "#TW"   : {"prefix" : "20",
+                "suffix" : " "},
+   
    
     #N for starting n_ineteen
     "#TPH"   : {"prefix" : "19",

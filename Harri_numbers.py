@@ -55,6 +55,22 @@ starter_chord = {
     "#TPH"   : {"prefix" : "19",
                 "suffix" : " "}
 
+    #C for cents 
+    "#KR"   : {"prefix" : "{^.",
+               "suffix" : " }"}
+
+    #Po for pound
+    "#PO"   :  {"prefix" : "£",
+               "suffix" : ""}
+
+    #DL for dollar
+    "#TKHRA"   :  {"prefix" : "$",
+               "suffix" : ""}
+
+    #P for point or pennies
+    "#P"   :  {"prefix" : "{^.",
+               "suffix" : " }"}
+
     #I don't know what this does
     #"STPWO"   : {"prefix"       : "{",
     #          "suffix" : "/^}"},

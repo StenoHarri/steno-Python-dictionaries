@@ -363,7 +363,6 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
                 unchecked_outlines_to_add =  list(set(unchecked_outlines_to_add) - set(checked_outlines_to_add))
 
             checked_outlines_to_add.pop(0) #The original outline is valid but like, obviously I've already got it
-            length = 0
             for um_outline in checked_outlines_to_add:
                 collapsed_dictionary[str(um_outline.replace("X",''))] = translated_phrase
             
@@ -394,13 +393,15 @@ for dictionary in list_of_dictionaries:
 def lookup(strokes):
 
     outline = "/".join(strokes)
-    if any(single_digit_number in "0123456789" for single_digit_number in outline):
-        outline = "#" + convert_steno_numbers_to_steno_keys(outline)
+    outline = aericks_denumberizer(outline)
 
     return collapsed_dictionary[outline]
 
 with open("collapsed_dictionaries.json", "w") as outfile:
-    json.dump(collapsed_dictionary, outfile)
+    json.dump(collapsed_dictionary, outfile, indent=0)
+
+
+
 
 """
 #def reverse_lookup(translated_phrase):

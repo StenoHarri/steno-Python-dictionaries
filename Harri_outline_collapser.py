@@ -300,7 +300,7 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "*" + match[2] + "D" + match[3])
                 #/HREU      → *LD
-                match = re.fullmatch(r'(.*[/X][#\+\^STKPWHRAO]+)([EU\-FRPB]+)\/HREU([/X].*)', working_outline)
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)([EU\-FRPB]+)\/HREU([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "*" + match[2] + "LD" + match[3])
                 #/HRAOEU    → *LD
@@ -365,7 +365,7 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
             #checked_outlines_to_add.pop(0) #The original outline is valid but like, obviously I've already got it
             for um_outline in checked_outlines_to_add:
                 if not um_outline == checked_outlines_to_add[0]:
-                    collapsed_dictionary[str(um_outline.replace("X",''))] = translated_phrase
+                  collapsed_dictionary[str(um_outline.replace("X",''))] = translated_phrase
 
     return collapsed_dictionary
 
@@ -374,7 +374,6 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
 
 collapsed_dictionary = {}
 reverse_lookup_dictionary = {}
-#I need to replace this with just reading the plover.cfg file
 
 #Send everything through capped and add #
 for dictionary in list_of_dictionaries:

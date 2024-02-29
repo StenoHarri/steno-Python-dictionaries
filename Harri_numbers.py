@@ -194,21 +194,23 @@ def lookup(strokes):
             output_number+=(primary_number[match[3]]+
                             secondary_number[match[4]]+
                             trailing_zeroes[match[2]])
+
+        # if the stroke that came before this stroke was also a number, smush them together
         else:
+            #okay, only if a link chord used
             if not (linker_chord[match[1]]):
                 raise KeyError
             successive_numbers=(primary_number[match[3]]+
                                 secondary_number[match[4]]+
                                 trailing_zeroes[match[2]])
+           
+           # And actually, only if the following number smaller than the number that just came before it
+           # ie  10 + 1 = 11,   1 + 10 = Error, therefore 1 + 10 = 1 10
             if len(successive_numbers) > end_zeros(output_number):
                 raise KeyError
             output_number = (output_number[0:len(output_number)-len(successive_numbers)]+
                              successive_numbers)
     
-    #if output_number=='1':
-    #    suffix=suffix_one
-    #else:
-    #    suffix=suffix_many
     
     return (prefix+
             output_number +

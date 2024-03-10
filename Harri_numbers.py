@@ -38,61 +38,22 @@ starter_chord = {
    "#KWR"    : {"prefix" : "{^",
               "suffix"   : "}"},
 
-    #KL for clock stuff
-    "#KHR"   : {"prefix" : "{^:",
-                "suffix" : "}"},
-
     #TWO starting tw_enty
     "#TWO"   : {"prefix" : "20",
                 "suffix" : " "},
-
-    #TWO starting tw_enty
-    "#TW"    : {"prefix" : "20",
-                "suffix" : " "},
-   
-   
+     
     #N for starting n_ineteen
     "#TPH"   : {"prefix" : "19",
                 "suffix" : " "},
-
-    #C for cents 
-    "#KR"    : {"prefix" : "{^.",
-                "suffix" : " }"},
-
-    #Po for pound
-    "#PO"    : {"prefix" : "£",
-                "suffix" : ""},
-
-    #DL for dollar
-    "#TKHRA" : {"prefix" : "$",
-                "suffix" : ""},
 
     #P for point or pennies
     "#P"     : {"prefix" : "{^.",
                 "suffix" : " }"}
 
-    #I don't know what this does
-    #"STPWO"   : {"prefix"       : "{",
-    #          "suffix" : "/^}"},
-    #
-    # 
-    #"STPWAO"   : {"prefix"       : "{^-",
-    #          "suffix" : "}"},
-    #
-    #"STPR"    : {"prefix"       : " ",
-    #          "suffix" : " "},
-    #
-    #"STPRA"    : {"prefix"       : "-",
-    #           "suffix" : " "},
-    #
-
 }
 
 linker_chord = { #by linker, I mean if it can get combined into the zeroes, it will
     "#"       : True,
-    "STPRA"   : True,
-    "STPWO"   : True,
-    "STPRAO"  : True
 }
 
 

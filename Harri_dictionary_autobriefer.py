@@ -1,6 +1,6 @@
 """
 Autobriefer
-Read your current dictionary outlines and apply regex rules
+Read your current dictionary outlines and apply regex rules and output an autobriefed dictionary.json
 """
 
 import re

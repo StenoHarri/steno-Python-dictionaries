@@ -1,7 +1,10 @@
+"""
+Autobriefer
+Read your current dictionary outlines and apply regex rules
+"""
+
 import re
 import json
-
-
 
 
 
@@ -20,14 +23,8 @@ list_of_dictionaries = ["Plover_main_without_compound_words", #Lowest priority
                         "Harri_personal_subscript",
                         "st_ft_switching",
                         "make_z_use_asterisk-Z",
-                        "Harri_personal_user"] #Highest priority
-
-
-
-
-
-
-
+                        "Harri_personal_user"
+                        ] #Highest priority
 
 
 
@@ -78,11 +75,15 @@ def aericks_denumberizer(old_outline):
 
 
 def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=False):
-    #The latest addition overwrites the previous entry at that location
+    #Open in current working directory
     with (open(dictionary_file, "r", encoding="utf-8")) as temp_dictionary:                                        #debug
+
+    #If you wish to run this python file as is, and not generate a json, pay attention to your os
     #with (open('C:\\Users\\harrry\\AppData\\Local\\plover\\plover\\' + dictionary_file, "r", encoding="utf-8")) as temp_dictionary: #Windows
     #with (open("Library/Application Support/plover/"+ dictionary_file, "r", encoding="utf-8")) as temp_dictionary: #Macintosh
     #with (open(".config/plover/"+ dictionary_file, "r", encoding="utf-8")) as temp_dictionary:                      #Linux
+
+      
         temp_dictionary = json.load(temp_dictionary)
         for outline in temp_dictionary:
             translated_phrase = temp_dictionary[outline]
@@ -139,8 +140,8 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
             PL/TPHAEUT → FRPBT = (.*[/X])([#+^STKPWHRAOEU\-]+)(PL)\/TPHAEUT([/X].*)
             PL/TPHAEUBGS→FRPBGS= (.*[/X])([#+^STKPWHRAOEU\-]+)(PL)\/TPHAEUBGS([/X].*)
             /PHEUBG    → FRBG  = (.*[/X])([#+^STKPWHRAOEU\-]+)(\/PHEUBG)([/X].*)
-            /SKWRO(*)  → ^     = (.*[/X]#?\+?)([STKPWHRAO\-*EUFRPBLGTSDZ]*/)(SKWRO[\*]?)([/X].*)
-            /KWRO(E)   → ^     = (.*[/X]#?\+?)([STKPWHRAO\-*EUFRPBLGTSDZ]*/)(KWRO[E]?)([/X].*)
+            /SKWRO(*)  → ^     = (.*[/X]#?\+?)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?/)(SKWRO[\*]?)([/X].*)
+            /KWRO(E)   → ^     = (.*[/X]#?\+?)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?/)(KWRO[E]?)([/X].*)
             /RO(E)     → ^R    = (.*[/X]#?\+?)([STKPWHRAO\-*EUFPBLGTSDZ]*/)(RO[E]?)([/X].*)
             /HRAEUGS   → LGS   = (.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?F?R?P?B?)(/HRAEUGS)([/X].*)
 
@@ -161,7 +162,7 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
             while unchecked_outlines_to_add:
                 working_outline =  unchecked_outlines_to_add.pop()
 
-                ## this is adding a # to words that are capped (Lapwing theory)
+                # this is adding a # to words that are capped (Lapwing theory)
                 if len(translated_phrase) > 1:
                     if translated_phrase[0].isupper():
                         match = re.fullmatch(r'X?([\+\^STKPWHRAO\*EU-].*)', working_outline)
@@ -198,6 +199,10 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
                     unchecked_outlines_to_add.append(match[1] + "^ST" + match[3])
                 #vBGS/  → ^SK
                 match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/)([PWHRAO\*EU-].*)', working_outline)
+                if match:
+                    unchecked_outlines_to_add.append(match[1] + "^SK" + match[3])
+                #vBGS/T → ^SK
+                match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/T)([PWHRAO\*EU-].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "^SK" + match[3])
                 #vBGS/K → ^SK
@@ -243,119 +248,119 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
 
                 #Infixes
                 #S* → STKPW
-                #if "z" in translated_phrase.lower():
-                #    match = re.fullmatch(r'(.*[\/X])S([HRAO]*)\*(.*)', working_outline)
-                #    if match:
-                #        unchecked_outlines_to_add.append(match[1] + "STKPW" + match[2] + match[3])
+                if "z" in translated_phrase.lower():
+                    match = re.fullmatch(r'(.*[\/X]#?\+?\^?)S([HRAO]*)\*(.*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "STKPW" + match[2] + match[3])
                 #TP*→ TP
                 if "ph" in translated_phrase.lower():
-                    match = re.fullmatch(r'(.*[\/X])TP([WHRAO]*)\*(.*)', working_outline)
+                    match = re.fullmatch(r'(.*[\/X]#?\+?\^?S?)TP([WHRAO]*)\*(.*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "TP" + match[2] + match[3])
                 #F  → FB
-                if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower():
-                    match = re.fullmatch(r'(.*[\/X])([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
+                if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
+                    match = re.fullmatch(r'(.*)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + match[2] + "FB"  + match[3])
 
                 #S(*)/KP(*)/SK(*)/SP(*) → ^SK
                 if "ex" in translated_phrase.lower():
                     #S
-                    match = re.fullmatch(r'(.*[\/X])S(P?W?H?R?A?O?-?\*?[\/X].*)', working_outline)
+                    match = re.fullmatch(r'(.*[\/X]#?\+?)S(P?W?H?R?A?O?-?\*?[\/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^SK" + match[2])
                         #S*
-                        match = re.fullmatch(r'(.*[\/X])S(P?W?H?R?A?O?)\*([\/X].*)', working_outline)
+                        match = re.fullmatch(r'(.*[\/X]#?\+?)S(P?W?H?R?A?O?)\*([\/X].*)', working_outline)
                         if match:
                             unchecked_outlines_to_add.append(match[1] + "^SK" + match[2] + match[3])
                     #KP
-                    match = re.fullmatch(r'(.*[\/X])KP(W?H?R?A?O?-?\*?[\/X].*)', working_outline)
+                    match = re.fullmatch(r'(.*[\/X]#?\+?)KP(W?H?R?A?O?-?\*?[\/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^SK" + match[2])
                         #KP*
-                        match = re.fullmatch(r'(.*[\/X])KP(W?H?R?A?O?)\*([\/X].*)', working_outline)
+                        match = re.fullmatch(r'(.*[\/X]#?\+?)KP(W?H?R?A?O?)\*([\/X].*)', working_outline)
                         if match:
                             unchecked_outlines_to_add.append(match[1] + "^SK" + match[2] + match[3])
                     #SK
-                    match = re.fullmatch(r'(.*[\/X])SK(W?H?R?A?O?-?\*?[\/X].*)', working_outline)
+                    match = re.fullmatch(r'(.*[\/X]#?\+?)SK(W?H?R?A?O?-?\*?[\/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^SK" + match[2])
                         #SK*
-                        match = re.fullmatch(r'(.*[\/X])SK(W?H?R?A?O?)\*([\/X].*)', working_outline)
+                        match = re.fullmatch(r'(.*[\/X]#?\+?)SK(W?H?R?A?O?)\*([\/X].*)', working_outline)
                         if match:
                             unchecked_outlines_to_add.append(match[1] + "^SK" + match[2] + match[3])
                     #SP
-                    match = re.fullmatch(r'(.*[\/X])SP(W?H?R?A?O?-?\*?[\/X].*)', working_outline)
+                    match = re.fullmatch(r'(.*[\/X]#?\+?)SP(W?H?R?A?O?-?\*?[\/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^SK" + match[2])
                         #SP*
-                        match = re.fullmatch(r'(.*[\/X])SP(W?H?R?A?O?)\*([\/X].*)', working_outline)
+                        match = re.fullmatch(r'(.*[\/X]#?\+?)SP(W?H?R?A?O?)\*([\/X].*)', working_outline)
                         if match:
                             unchecked_outlines_to_add.append(match[1] + "^SK" + match[2] + match[3])
 
 
                 #Suffixes
                 #/KWREU     → *D
-                match = re.fullmatch(r'(.*[/X][#\+\^STKPWHRAO]+)([EU\-FRPBLGTS]+)\/KWREU([/X].*)', working_outline)
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)\-?(E?U?F?R?P?B?L?G?T?S?)\/KWREU([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "*" + match[2] + "D" + match[3])
                 #/HREU      → *LD
-                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)([EU\-FRPB]+)\/HREU([/X].*)', working_outline)
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)\-?(E?U?F?R?P?B?)\/HREU([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "*" + match[2] + "LD" + match[3])
                 #/HRAOEU    → *LD
-                match = re.fullmatch(r'(.*[/X][#\+\^STKPWHRAO]+)([EU\-FRPB]+)\/HRAOEU([/X].*)', working_outline)
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)([EU\-FRPB]+)\/HRAOEU([/X].*)', working_outline)
                 if match:
-                    unchecked_outlines_to_add.append(match[1] + "*" + match[2] + "LD" + match[3])
-                #PL/TPHAEUT → FRPBT
-                match = re.fullmatch(r'(.*[/X][#\+\^STKPWHRAOEU\-]+)(PL)\/TPHAEUT([/X].*)', working_outline)
+                    unchecked_outlines_to_add.append(match[1] + "*" + str(match[2]).replace("-","") + "LD" + match[3])
+                #PL/TPHAEUT → -FRPBT
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUT([/X].*)', working_outline)
                 if match: #^HRAOUPL/TPHAEUT
                     unchecked_outlines_to_add.append(match[1] + "FRPBT" + match[3])
-                #PL/TPHAEUBGS→FRPBGS
-                match = re.fullmatch(r'(.*[/X][#\+\^STKPWHRAOEU\-]+)(PL)\/TPHAEUGS([/X].*)', working_outline)
+                #PL/TPHAEUBGS→-FRPBGS
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUGS([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "FRPBGS" + match[3])
-                #/PHEUBG    → FRBG
-                match = re.fullmatch(r'(.*[/X][#\+\^STKPWHRAOEU\-]+)(\/PHEUBG)([/X].*)', working_outline)
+                #/PHEUBG    → -FRBG
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(\/PHEUBG)([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "FRBG" + match[3])
                 #/SKWRO(*)  → ^
-                match = re.fullmatch(r'(.*[/X][#+]*)([STKPWHRAO\-*EUFRPBLGTSDZ]*)/SKWRO[*]?([/X].*)', working_outline)
+                match = re.fullmatch(r'(.*[/X][#+]*)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?)/SKWRO[*]?([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "^" + match[2] + match[3])
                 #/KWRO(E)   → ^
-                match = re.fullmatch(r'(.*[/X][#+]*)([STKPWHRAO\-*EUFRPBLGTSDZ]*)/KWRO[E]?([/X].*)', working_outline)
+                match = re.fullmatch(r'(.*[/X][#+]*)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?)/KWRO[E]?([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "^" + match[2] + match[3])
-                #/RO(E)     → ^R
-                match = re.fullmatch(r'(.*[/X]#?\+?)([STKPWHRAO\-*EUF]*)([PBLGTSDZ]*/)(RO[E]?)([/X].*)', working_outline)
+                #/RO(E)     → ^-R
+                match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?[AO\-\*EU]+F?)([PBLGTSDZ]*/)(RO[E]?)([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "^" + match[2] + "R" + match[3] + match[4])
-                #^HR
-                match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?A?O?\-?\*?E?U?F?R?P?B?)/HRO[E]?([/X].*)', working_outline)
+                #^HR        → ^-L
+                match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/HRO[E]?([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "^" + match[2] + "L" + match[3])
-                #/HRAEUGS   → LGS
-                match = re.fullmatch(r'(.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?F?R?P?B?)/HRAEUGS([/X].*)', working_outline)
+                #/HRAEUGS   → -LGS
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/HRAEUGS([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "LGS" + match[2])
-                #LT
-                match = re.fullmatch(r'(.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?F?R?P?B?)/KWRALT([/X].*)', working_outline)
+                #/KWRALT    → -LT
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/KWRALT([/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "LT" + match[2])
-                #/KHUR      → FRP
-                match = re.fullmatch(r'(.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?)/KHUR([T?S?D?Z?/X].*)', working_outline)
+                #/KHUR      → -FRP
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)/KHUR(B?L?G?T?S?D?Z?[/X].*)', working_outline)
                 if match:
-                    unchecked_outlines_to_add.append(match[1] + "LT" + match[2])
+                    unchecked_outlines_to_add.append(match[1] + "FRP" + match[2])
                 #BG/KHUR    → *FRP
-                match = re.fullmatch(r'(.*[/X]#?\+?S?T?K?P?W?H?R?A?O?)\-?(E?U?)BG/KHUR([T?S?D?Z?/X].*)', working_outline)
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)\-?(E?U?)BG/KHUR(T?S?D?Z?[/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "*" + match[2] + "FRP" + match[3])
-                checked_outlines_to_add.append(working_outline)
-                ###########check for duplicates
-                unchecked_outlines_to_add =  list(set(unchecked_outlines_to_add) - set(checked_outlines_to_add))
-                #PL/vPB     →FRPB
-                match = re.fullmatch(r'(.*[/X]#?\+?S?T?K?P?W?H?R?A?O?E?U?)PL/[AOEU]+PB([L?G?T?S?D?Z?/X].*)', working_outline)
+                
+
+
+                #PL/vPB     → -FRPB
+                match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?E?U?)PL/[AOEU\*\-]+PB([L?G?T?S?D?Z?/X].*)', working_outline)
                 if match:
                     unchecked_outlines_to_add.append(match[1] + "FRPB" + match[2])
                 checked_outlines_to_add.append(working_outline)
@@ -364,16 +369,13 @@ def collapse_outlines(dictionary_file, collapsed_dictionary = {}, force_cap=Fals
 
             #checked_outlines_to_add.pop(0) #The original outline is valid but like, obviously I've already got it
             for um_outline in checked_outlines_to_add:
-                if not um_outline == checked_outlines_to_add[0]:
-                  collapsed_dictionary[str(um_outline.replace("X",''))] = translated_phrase
+                #if not um_outline == checked_outlines_to_add[0]:
+                collapsed_dictionary[str(um_outline.replace("X",''))] = translated_phrase
 
     return collapsed_dictionary
 
 
-
-
 collapsed_dictionary = {}
-reverse_lookup_dictionary = {}
 
 #Send everything through capped and add #
 for dictionary in list_of_dictionaries:
@@ -384,12 +386,6 @@ for dictionary in list_of_dictionaries:
 
 
 
-
-#reverse_dictionary = {translated_phrase:outline for outline,translated_phrase in collapsed_dictionary.items()} 
-
-#collapsed_dictionary['-PG'] = str(len(collapsed_dictionary))
-
-
 def lookup(strokes):
 
     outline = "/".join(strokes)
@@ -397,26 +393,12 @@ def lookup(strokes):
 
     return collapsed_dictionary[outline]
 
-with open("collapsed_dictionaries.json", "w") as outfile:
+with open("autobriefed.json", "w") as outfile:
     json.dump(collapsed_dictionary, outfile, indent=0)
 
 
 
 
-"""
-#def reverse_lookup(translated_phrase):
 
-    This don't work cause you can't alter what goes in, only what comes out
-    outline = "/".join(strokes)
-
-    return {key for key,value in collapsed_dictionary.items() if value==outline }
-    
-    #return reverse_dictionary
-"""
-
-
-#print(lookup(("^PHAOE","TPHOE")))
-#print(lookup(("#TPHOS","KOEPL","KWRAL")))
-#print(lookup("^SKWRABGS")) Nos comb amino acid
 
 #print(reverse_lookup(("reverse"))) okay huh

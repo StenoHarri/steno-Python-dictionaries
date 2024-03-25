@@ -1,59 +1,59 @@
 """
-Example of how to write:
-29,312 takes 3 strokes
-
-29,000      #EURBT
-   300      #UB
-    12      #RGS
-======
-29,312
-
-the initial number is optional
-
-,000        #EU
- 100        #UR
-  23        #RBS
-====
-,123
+Left hand = Activate Harri numbers
+Right fingers = any two digit number
+Right thumbs = stick up to three 0's on the end
 """
-
-
-
-
 
 import re
 
-
-LONGEST_KEY = 4
+LONGEST_KEY = 4 
 
 
 starter_chord = {
-    #In plover, {&} in the outline, means treat it like fingerspelling
 
-   # just left it as #, if there's a conflict I don't know, asterisk it
+   #Default numbers
    "#"       : {"prefix" : " ",
                 "suffix" : " "},
    
-   #KWR for sticking stuff, so no spacing
-   "#KWR"    : {"prefix" : "{^",
+   #KWR for sticking stuff, so no spacing (except first number)
+   "#KWR"    : {"prefix" : "{&",
               "suffix"   : "}"},
 
-    #TWO starting tw_enty
+    #KL for clock stuff
+    "#KHR"   : {"prefix" : "{^:",
+                "suffix" : "}"},
+
+    #TWO for years 2000's
+    #TW for 20
+    #O  for 00
     "#TWO"   : {"prefix" : "20",
                 "suffix" : " "},
-     
-    #N for starting n_ineteen
-    "#TPH"   : {"prefix" : "19",
+
+
+    #NO for years 1900's
+    #N for 19
+    #O for 00
+    "#TPHO"   : {"prefix" : "19",
                 "suffix" : " "},
+
+
+    #Po for pound
+    "#PO"    : {"prefix" : "£",
+                "suffix" : ""},
+
+    #DL for dollar
+    "#TKHRA" : {"prefix" : "$",
+                "suffix" : ""},
 
     #P for point or pennies
     "#P"     : {"prefix" : "{^.",
                 "suffix" : " }"}
-
 }
 
-linker_chord = { #by linker, I mean if it can get combined into the zeroes, it will
+linker_chord = { #by linker, I mean collapsing a 100 with 23 to output 123 (two strokes)
     "#"       : True,
+    "#PO"     : True,
+    "#TKHRA"  : True
 }
 
 
@@ -110,9 +110,8 @@ def end_zeros(string):
 
 
 
-
 def lookup(strokes):
-    
+
     assert len(strokes) <= LONGEST_KEY, '%d/%d' % (len(strokes), LONGEST_KEY)
 
     output_number= ''
@@ -149,30 +148,21 @@ def lookup(strokes):
                 raise KeyError
             prefix = starter_chord[match[1]]['prefix']
             suffix = starter_chord[match[1]]['suffix']
-            #suffix_one = starter_chord[match[1]]['suffix(one)']
-            #suffix_many = starter_chord[match[1]]['suffix(many)']
 
             output_number+=(primary_number[match[3]]+
                             secondary_number[match[4]]+
                             trailing_zeroes[match[2]])
-
-        # if the stroke that came before this stroke was also a number, smush them together
         else:
-            #okay, only if a link chord used
             if not (linker_chord[match[1]]):
                 raise KeyError
             successive_numbers=(primary_number[match[3]]+
                                 secondary_number[match[4]]+
                                 trailing_zeroes[match[2]])
-           
-           # And actually, only if the following number smaller than the number that just came before it
-           # ie  10 + 1 = 11,   1 + 10 = Error, therefore 1 + 10 = 1 10
             if len(successive_numbers) > end_zeros(output_number):
                 raise KeyError
             output_number = (output_number[0:len(output_number)-len(successive_numbers)]+
                              successive_numbers)
-    
-    
+
     return (prefix+
             output_number +
             suffix)

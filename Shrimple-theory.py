@@ -6,6 +6,9 @@ Key considerations were that it wasn't tailored for English, as this is mostly f
 @Jalexu is not on GitHub so DM them for the most up to date version
 """
 
+entry_stroke="SKWR-RBGS"
+
+
 """
 Predefined_starters={ This short list is the stuff I define before combinations get mixed
     "" : "",
@@ -2341,7 +2344,7 @@ def aericks_denumberizer(old_outline):
 
 def lookup(strokes):
 
-    if not strokes[0] == "#T":
+    if not strokes[0] == entry_stroke:
         raise KeyError
 
 
@@ -2404,7 +2407,7 @@ def lookup(strokes):
 
 
 
-        if not stroke_number ==0 and strokes[stroke_number] =="#T":
+        if not stroke_number ==0 and strokes[stroke_number] ==entry_stroke:
             raise KeyError
 
 

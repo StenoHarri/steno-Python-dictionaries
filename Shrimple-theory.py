@@ -6,6 +6,137 @@ Key considerations were that it wasn't tailored for English, as this is mostly f
 @Jalexu is not on GitHub so DM them for the most up to date version
 """
 
+"""
+Predefined_starters={ This short list is the stuff I define before combinations get mixed
+    "" : "",
+
+    "^":"a",
+    "^SK":"ex",
+    "^SKPH":"em",
+    "^SKHR":"excl",
+    "^SKR":"excr", #maybe?
+    "^TPH":"on ", #maybe?
+    "^SKWR":"eng", #maybe?
+
+    "S" : "s",
+    "STK": "dis",
+    "STKPW": "z", #I've decided not disg
+    "SKPH":"im",
+    "SKP": "and ",
+    "SKWR": "j",
+    "SKHR": "shr",
+    "SPW":"int",
+    "SH" : "sh",
+    "SR" : "v",
+    #"S*" : "z",
+
+    "T" : "t",
+    "TK": "d",
+    "TKPW":"g",
+    "TKW":"dev",
+    "TKR":"dr",
+    "TP": "f",
+    "TPH": "n",
+
+    "K":"k",
+    "KP":"x",
+    "KPW":"imp",
+    "KW":"q", #interesting, cause vowel?
+    "KWR":"y",
+    "KH":"ch",
+    "KR":"c",
+
+    "P":"p",
+    "PW":"b",
+    "PH":"m",
+    "PHR":"pl", #I've decided not mr
+
+    "W":"w",
+
+    "H":"h",
+    "HR":"l",
+
+    "R":"r"
+}
+
+
+Then these are the ending letters before they get mixed
+ender_letter={
+    "":"",
+    "*":"[delete me]",
+    "*FRPB":"nch",
+    "*FT":"ft",
+    "*PBG":"nk",
+    "*PZ":"h",
+    "PS":"h",
+    "*BG":"ck",
+    "*BGS":"ction",
+    "*T":"th",
+    "*S":"c",
+    "*D":"y",
+    "*DZ":"e",
+    "*Z":"z",
+
+    "F":"f",
+    "FRP":"mp",
+    "FRPB":"rch",
+    "FRPL":"mpl",
+    "FRB":"mb", #come back to this
+    "FRL":"ml",
+    "FRBL":"mbl",
+    "FP":"ch",
+    "FPL":"tual",
+    "FPLT":"{.}",
+    "FB":"v",
+    "FT":"st",
+
+    "R":"r", #if o, then end in e
+    "RPBLG":"rg",
+    "RB":"sh", #unless AU to make it rb carb barb
+    "RBL":"rrow",
+    "RBT":"tial",
+    "RBG":"rk",
+    "RBGS":"{,}",
+    "RBS":"tious",
+
+    "P":"p",
+    "PB":"n",
+    "PBLG":"dg",
+    "PBLGS":"jection",
+    "PBG":"ng",
+    "PBGS":"nction",
+    "PL":"m",
+    #PZ for h?
+
+    "B":"b",
+    "BLG":"ckle",
+    "BG":"k",
+    "BGT":"ct", 
+    "BGTS":"cts",
+    "BGS":"x", #I don't know about ction, maybe asterisk?
+
+    "L":"l", #come back to this
+
+    "G":"g",
+    "GT":"xt",
+    "GS":"tion", #fuck you
+
+    "T":"t",
+    "TS":"ts",
+    "TZ":"se",
+
+    "S":"s", #might be some logic here for c? Realtime uses `SZ` for c
+    "SD":"e",
+    
+    "D":"d",
+    
+
+    "Z":"e"
+
+}
+
+
+"""
 
 starter_letter={
     "":"",

@@ -2,8 +2,7 @@
 Autobriefer
 Read your current dictionary outlines and apply regex rules and output an autobriefed dictionary.json
 """
-import re
-import json
+
 
 
 make_schwa_use_the_number_key_actually = True
@@ -43,6 +42,21 @@ list_of_dictionaries = ["1/Plover_main(made Lapwing friendly)", #Lowest priority
 
 
 
+#You don't have to look any further
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -53,7 +67,8 @@ list_of_dictionaries = ["1/Plover_main(made Lapwing friendly)", #Lowest priority
 
 LONGEST_KEY = 4
 
-
+import re
+import json
 import os
 cwd = os.getcwd()
 

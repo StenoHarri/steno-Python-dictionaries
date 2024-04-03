@@ -341,7 +341,6 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                         match = re.fullmatch(r'(.*)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
                         if match:
                             unchecked_outlines_to_add.append(match[1] + match[2] + "FB"  + match[3])
-                    
 
                     #suffixes
                     #/SKWRO(*)  → ^
@@ -353,7 +352,7 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^" + match[2] + match[3])
                     #/RO(E)     → ^-R
-                    match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?[AO\-\*EU]+F?)([PBLGTSDZ]*/)(RO[E]?)([/X].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?[AO\-\*EU]+F?)([PBLGTSDZ]*)/RO[E]?([/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^" + match[2] + "R" + match[3] + match[4])
                     #^HR        → ^-L
@@ -417,22 +416,21 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
 
             for um_outline in checked_outlines_to_add:
 
-                    if not um_outline == checked_outlines_to_add[0]:
-                        if make_schwa_use_the_number_key_actually:
-                            briefed_outline = str(um_outline.replace("X",'').replace('^','#'))
-                        else:
-                            briefed_outline = str(um_outline.replace("X",''))
+                    if make_schwa_use_the_number_key_actually:
+                        briefed_outline = str(um_outline.replace("/X","X").replace("X",'').replace('^','#').replace("//","/"))
+                    else:
+                        briefed_outline = str(um_outline.replace("/X","X").replace("X",'').replace("//","/"))
+                    
+                    if not briefed_outline in comparison_dictionary and not '##' in briefed_outline:
+                        briefed_dictionary[briefed_outline] = translated_phrase
                         
-                        if not briefed_outline in comparison_dictionary and not '##' in briefed_outline:
-                            briefed_dictionary[briefed_outline] = translated_phrase
-                            
-                            if stare_mode:
-                                if not stare_number % stare_mode:
+                        if stare_mode:
+                            if not stare_number % stare_mode:
 
-                                    #print(translated_phrase+'\t'+outline+'\tinto '+briefed_outline)
+                                #print(translated_phrase+'\t'+outline+'\tinto '+briefed_outline)
 
-                                    print(f"{translated_phrase:<25} {outline:<25} into {briefed_outline:<25}")
-                                stare_number+=1
+                                print(f"{translated_phrase:<25} {outline:<25} into\t"+briefed_outline)
+                            stare_number+=1
 
 
 

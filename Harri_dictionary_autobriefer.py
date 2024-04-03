@@ -16,7 +16,7 @@ folding_rules = {
     'josiah_folding' : False,
     'harri_folding' : False,
     'ex being ^SK' : False,
-    'FRP for chure, and *FRP for ckchure' : False
+    'FRP for chure, and *FRP for ckchure' : True
 }
 
 
@@ -453,13 +453,13 @@ for dictionary in list_of_dictionaries:
         comparison_dictionary.update(json.load(temp_dictionary))
 
 
-
-print('Writing capped up dictionary')
-for dictionary in list_of_dictionaries:
-    with (open(dictionary+'.json', "r", encoding="utf-8")) as temp_dictionary:
-        uncapped_dictionary = (json.load(temp_dictionary))
-        for entry in uncapped_dictionary:
-            briefed_dictionary[('#'+entry).replace('##','#')] = uncapped_dictionary[entry].capitalize()
+if folding_rules['numberkey_capping']:
+    print('Writing capped up dictionary')
+    for dictionary in list_of_dictionaries:
+        with (open(dictionary+'.json', "r", encoding="utf-8")) as temp_dictionary:
+            uncapped_dictionary = (json.load(temp_dictionary))
+            for entry in uncapped_dictionary:
+                briefed_dictionary[('#'+entry).replace('##','#')] = uncapped_dictionary[entry].capitalize()
 
 
 #Send everything through normally
@@ -467,13 +467,14 @@ for dictionary in list_of_dictionaries:
     print('\n\ncurrently briefing '+dictionary)
     briefed_dictionary = dictionary_briefer(dictionary + ".json", briefed_dictionary, folding_rules, comparison_dictionary, stare_mode)
 
-print('Capping the new briefs')
-for dictionary in list_of_dictionaries:
-    with (open(dictionary+'.json', "r", encoding="utf-8")) as temp_dictionary:
-        uncapped_dictionary = (json.load(temp_dictionary))
-        for entry in uncapped_dictionary:
-            if not entry.startswith('#'):
-                briefed_dictionary['#'+entry] = uncapped_dictionary[entry].capitalize()
+if folding_rules['numberkey_capping']:
+    print('Capping the new briefs')
+    for dictionary in list_of_dictionaries:
+        with (open(dictionary+'.json', "r", encoding="utf-8")) as temp_dictionary:
+            uncapped_dictionary = (json.load(temp_dictionary))
+            for entry in uncapped_dictionary:
+                if not entry.startswith('#'):
+                    briefed_dictionary['#'+entry] = uncapped_dictionary[entry].capitalize()
 
 
 #reverse_dictionary = {translated_phrase:outline for outline,translated_phrase in briefed_dictionary.items()} 

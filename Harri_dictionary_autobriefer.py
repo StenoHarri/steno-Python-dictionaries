@@ -18,8 +18,6 @@ folding_rules = {
     'FRP for chure, and *FRP for ckchure' : True
 }
 
-#If you want a small briefed.json, do this, but it's gunna take like ages. I mean ages
-check_the_dictionary_for_every_outline_so_that_only_novel_outlines_are_added = True
 
 #The last dictionary, overwrites the previous dictionary
 list_of_dictionaries = ["1/Plover_main(made Lapwing friendly)", #Lowest priority
@@ -423,11 +421,10 @@ reverse_lookup_dictionary = {}
 
 #Send everything just to squish
 comparison_dictionary = {}
-if check_the_dictionary_for_every_outline_so_that_only_novel_outlines_are_added:
-
-    for dictionary in list_of_dictionaries:
-        with (open(dictionary+'.json', "r", encoding="utf-8")) as temp_dictionary:
-            comparison_dictionary.update(json.load(temp_dictionary))
+print('Writing comparison dictionary')
+for dictionary in list_of_dictionaries:
+    with (open(dictionary+'.json', "r", encoding="utf-8")) as temp_dictionary:
+        comparison_dictionary.update(json.load(temp_dictionary))
 
 
 
@@ -461,10 +458,3 @@ with open("autobriefed.json", "w") as outfile:
     json.dump(briefed_dictionary, outfile, indent=0)
 
 
-
-
-
-
-
-
-#print(reverse_lookup(("reverse"))) okay huh

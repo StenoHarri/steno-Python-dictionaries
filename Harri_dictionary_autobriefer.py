@@ -3,6 +3,8 @@ Autobriefer
 Read your current dictionary outlines and apply regex rules and output an autobriefed dictionary.json
 """
 
+#1 is read them all, 500 is read one in every 500. Purely visual so you have something to watch while running, as requested by @Field
+stare_mode = 100
 
 
 make_schwa_use_the_number_key_actually = True
@@ -111,23 +113,24 @@ def aericks_denumberizer(old_outline):
 
 
 
-def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules ={}, comparison_dictionary = {}, force_cap=False):
+def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules ={}, comparison_dictionary = {}, stare_mode=False, force_cap=False):
     #The latest addition overwrites the previous entry at that location
-    with (open(dictionary_file, "r", encoding="utf-8")) as temp_dictionary:                                        #debug
+    with (open(dictionary_file, "r", encoding="utf-8")) as temp_dictionary_name:                                        #debug
     #with (open('C:\\Users\\harrry\\AppData\\Local\\plover\\plover\\' + dictionary_file, "r", encoding="utf-8")) as temp_dictionary: #Windows
     #with (open("Library/Application Support/plover/"+ dictionary_file, "r", encoding="utf-8")) as temp_dictionary: #Macintosh
     #with (open(".config/plover/"+ dictionary_file, "r", encoding="utf-8")) as temp_dictionary:                      #Linux
-        temp_dictionary = json.load(temp_dictionary)
+        temp_dictionary = json.load(temp_dictionary_name)
+        stare_number=0
         for outline in temp_dictionary:
             translated_phrase = temp_dictionary[outline]
 
             
-            #Idk what this does, so I'll remove it
-            """if force_cap and (not translated_phrase == ''):
+            #This caps stuff if force_cap is on
+            if force_cap and (not translated_phrase == ''):
                 if translated_phrase[0] == "{":
                     translated_phrase = "{" + translated_phrase[1].upper() + translated_phrase[2:]
                 else:
-                    translated_phrase = translated_phrase[0].upper() + translated_phrase[1:]"""
+                    translated_phrase = translated_phrase[0].upper() + translated_phrase[1:]
 
             outline = aericks_denumberizer(outline)
 
@@ -414,12 +417,18 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
 
                     if not um_outline == checked_outlines_to_add[0]:
                         if make_schwa_use_the_number_key_actually:
-                            briefed_outline = str(um_outline.replace("X",'').replace('^','#').replace('##','#'))
+                            briefed_outline = str(um_outline.replace("X",'').replace('^','#'))
                         else:
                             briefed_outline = str(um_outline.replace("X",''))
                         
-                        if not briefed_outline in comparison_dictionary: #923 764 764
+                        if not briefed_outline in comparison_dictionary and not '##' in briefed_outline:
                             briefed_dictionary[briefed_outline] = translated_phrase
+                            
+                            if stare_mode:
+                                stare_number+=1
+                                if not stare_number % stare_mode:
+
+                                    print(translated_phrase+'\t'+outline+'\tinto '+briefed_outline)
 
 
 
@@ -443,18 +452,26 @@ for dictionary in list_of_dictionaries:
 
 
 
+print('Writing capped up dictionary')
+for dictionary in list_of_dictionaries:
+    with (open(dictionary+'.json', "r", encoding="utf-8")) as temp_dictionary:
+        uncapped_dictionary = (json.load(temp_dictionary))
+        for entry in uncapped_dictionary:
+            briefed_dictionary[('#'+entry).replace('##','#')] = uncapped_dictionary[entry].capitalize()
 
-#Send everything through capped and add #
-if folding_rules['numberkey_capping']:
-    for dictionary in list_of_dictionaries:
-        print('Currently capping '+dictionary)
-        briefed_dictionary = dictionary_briefer(dictionary + ".json", briefed_dictionary, folding_rules, comparison_dictionary, True)
+
 #Send everything through normally
 for dictionary in list_of_dictionaries:
-    print('currently briefing '+dictionary)
-    briefed_dictionary = dictionary_briefer(dictionary + ".json", briefed_dictionary, folding_rules, comparison_dictionary)
+    print('\n\ncurrently briefing '+dictionary)
+    briefed_dictionary = dictionary_briefer(dictionary + ".json", briefed_dictionary, folding_rules, comparison_dictionary, stare_mode)
 
-
+print('Capping the new briefs')
+for dictionary in list_of_dictionaries:
+    with (open(dictionary+'.json', "r", encoding="utf-8")) as temp_dictionary:
+        uncapped_dictionary = (json.load(temp_dictionary))
+        for entry in uncapped_dictionary:
+            if not entry.startswith('#'):
+                briefed_dictionary['#'+entry] = uncapped_dictionary[entry].capitalize()
 
 
 #reverse_dictionary = {translated_phrase:outline for outline,translated_phrase in briefed_dictionary.items()} 
@@ -471,5 +488,3 @@ def lookup(strokes):
 
 with open("autobriefed.json", "w") as outfile:
     json.dump(briefed_dictionary, outfile, indent=0)
-
-

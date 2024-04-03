@@ -4,19 +4,19 @@ Read your current dictionary outlines and apply regex rules and output an autobr
 """
 
 #1 is read them all, 500 is read one in every 500. Purely visual so you have something to watch while running, as requested by @Field
-stare_mode = 100
+stare_mode = 101
 
 
-make_schwa_use_the_number_key_actually = True
+make_schwa_use_the_number_key_actually = False
 
 folding_rules = {
-    'numberkey_capping' : True,
-    'lapwing_folding' : True,
-    'plover_folding' : True,
-    'josiah_folding' : True,
+    'numberkey_capping' : False,
+    'lapwing_folding' : False,
+    'plover_folding' : False,
+    'josiah_folding' : False,
     'harri_folding' : False,
-    'ex being ^SK' : True,
-    'FRP for chure, and *FRP for ckchure' : True
+    'ex being ^SK' : False,
+    'FRP for chure, and *FRP for ckchure' : False
 }
 
 
@@ -213,65 +213,60 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
 
 
                 if folding_rules['josiah_folding']:
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+\/)([STKPWHRAO\*EU-].*)', working_outline)
+                    #v/   → ^
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+\/)([STKPWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^" + match[3])
                     #vS/   → ^S
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+S\/)([TKPWHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+S\/)([TKPWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^S" + match[3])
                     #vFT/  → ^ST
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+FT\/)([KPWHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+FT\/)([KPWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^ST" + match[3])
                     #vBGS/  → ^SK
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/)([PWHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/)([PWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^SK" + match[3])
                     #vBGS/T → ^SK
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/T)([PWHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/T)([PWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^SK" + match[3])
                     #vBGS/K → ^SK
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/K)([PWHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BGS\/K)([PWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^SK" + match[3])
                     #vT/   → ^T
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+T\/)([KPWHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+T\/)([KPWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^T" + match[3])
                     #vD/   → ^TK
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+D\/)([PWHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+D\/)([PWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^TK" + match[3])
                     #vPB/K → ^TKP
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+PB\/K)([WHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+PB\/K)([WHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^TKP" + match[3])
                     #vF/   → ^TP
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+F\/)([WHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+F\/)([WHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^TP" + match[3])
                     #vBG/  → ^K
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BG\/)([PWHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+BG\/)([PWHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^K" + match[3])
                     #vP/   → ^P
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+P\/)([WHRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+P\/)([WHRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^P" + match[3])
                     #vB/   → ^PW
-                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+B\/)([HRAO\*EU-].*)', working_outline)
+                    match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+B\/)([HRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^PW" + match[3])
                     
-                    #Infixes
-                    #F  → FB
-                    if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
-                        match = re.fullmatch(r'(.*)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
-                        if match:
-                            unchecked_outlines_to_add.append(match[1] + match[2] + "FB"  + match[3])
-                    
+
 
                     #Suffixes
                     #/KWREU     → *D
@@ -340,6 +335,13 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                         match = re.fullmatch(r'(.*[\/X]#?\+?\^?S?)TP([WHRAO]*)\*(.*)', working_outline)
                         if match:
                             unchecked_outlines_to_add.append(match[1] + "TP" + match[2] + match[3])
+                                        #Infixes
+                    #F  → FB
+                    if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
+                        match = re.fullmatch(r'(.*)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + match[2] + "FB"  + match[3])
+                    
 
                     #suffixes
                     #/SKWRO(*)  → ^
@@ -425,12 +427,12 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                             briefed_dictionary[briefed_outline] = translated_phrase
                             
                             if stare_mode:
-                                stare_number+=1
                                 if not stare_number % stare_mode:
 
-                                    print(translated_phrase+'\t'+outline+'\tinto '+briefed_outline)
+                                    #print(translated_phrase+'\t'+outline+'\tinto '+briefed_outline)
 
-
+                                    print(f"{translated_phrase:<25} {outline:<25} into {briefed_outline:<25}")
+                                stare_number+=1
 
 
 

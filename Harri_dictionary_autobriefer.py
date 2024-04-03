@@ -4,20 +4,36 @@ Read your current dictionary outlines and apply regex rules and output an autobr
 """
 
 #1 is read them all, 500 is read one in every 500. Purely visual so you have something to watch while running, as requested by @Field
-stare_mode = 101
+stare_mode = 500
 
 
 make_schwa_use_the_number_key_actually = False
 
 folding_rules = {
+
+    #Lapwing
     'numberkey_capping' : False,
-    'lapwing_folding' : False,
-    'plover_folding' : False,
-    'josiah_folding' : False,
-    'harri_folding' : False,
-    'ex being ^SK' : False,
-    'FRP for chure, and *FRP for ckchure' : True
+    'dis/ → STK-'       : False,
+    '/lation → -LGS'    : False,
+
+    #Plover
+    'm/ → -FR (when PL is taken)'     : True,
+    'ph → TP-'          : False, #Lapwing uses TP*
+
+    #Josiah
+    'vowel/ → ^-'       : False,
+    '/y → *D'           : False,
+
+    #Harri
+    'ex/ → ^SK-'        : False,
+    'v  → -FB'          : False,    #Josiah uses this for conflicts
+    'z → STKPW-'        : False,
+    '/chure → -FRP'     : False,
+    '/ckchure → *FRP'   : False,
+    '/yoe → ^-'         : False, #Breaks steno order but I love it
+
 }
+
 
 
 #The last dictionary, overwrites the previous dictionary
@@ -30,16 +46,16 @@ list_of_dictionaries = ["1/Plover_main(made Lapwing friendly)", #Lowest priority
                         "1/Josiah_additions",
                         "1/Josiah&Lapwing_additions",
                         #"2/Harri_phrasing",
-                        "1/Jeff_additions",
-                        "2/Harri_titles",
-                        "1/Harri_biology",
-                        "2/Harri_one_handed_fingerspelling",
-                        "2/inconsistencies/Harri_asteris-S for ss",
-                        "2/inconsistencies/Harri_asterisk-Z for z",
-                        "2/inconsistencies/Harri_GT for ght",
-                        "2/inconsistencies/Harri_st and ft",
-                        "2/Harri_user",
-                        "2/Harri_raw"
+                        #"1/Jeff_additions",
+                        #"2/Harri_titles",
+                        #"1/Harri_biology",
+                        #"2/Harri_one_handed_fingerspelling",
+                        #"2/inconsistencies/Harri_asteris-S for ss",
+                        #"2/inconsistencies/Harri_asterisk-Z for z",
+                        #"2/inconsistencies/Harri_GT for ght",
+                        #"2/inconsistencies/Harri_st and ft",
+                        #"2/Harri_user",
+                        #"2/Harri_raw"
                         ] #Highest priority
 
 
@@ -139,58 +155,6 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
             Here, it's these following 'if' statements you want to change
             Stroke is something like "A/PHAEUZ"
             Outline is something like "amaze"
-
-
-            v stands for vowel, X stands for start/end of string
-            Fold (Must start)(Will replace)(Must be followed with)
-            This replaces that
-            #  =                          ([^STKPWHRAO[\*]EU-].*)
-            v stands for vowel
-
-            [removed] EBGS/ → 😦  = (.*[/X]#?\+?)   (EBGS\/)       (.*)
-            v/    → ^   = (.*[/X]#?\+?)   ([AOEU]+\/)    ([STKPWHRAO\*EU-].*)
-            v/    → ^   = (.*[/X]#?\+?)   ([AOEU]+\/)    ([STKPWHRAO\*EU-].*)
-            vS/   → ^S  = (.*[/X]#?\+?)   ([AOEU]+S\/)   ([TKPWHRAO\*EU-].*)
-            EFT/  → ^ST = (.*[/X]#?\+?)   ([AOEU]+BGS\/) ([KPWHRAO\*EU-].*)
-            vBGS/ → ^SK = (.*[/X]#?\+?)   ([AOEU]+S\/)   ([TKPWHRAO\*EU-].*)
-            vBGS/K→ ^SK = (.*[/X]#?\+?)   ([AOEU]+S\/)   ([TKPWHRAO\*EU-].*)
-            vT/   → ^T  = (.*[/X]#?\+?)   ([AOEU]+T\/)   ([KPWHRAO\*EU-].*)
-            vD/   → ^TK = (.*[/X]#?\+?)   ([AOEU]+D\/)   ([PWHRAO\*EU-].*)
-            vPB/K → ^TKP= (.*[/X]#?\+?)   ([AOEU]+PB\/K) ([WHRAO\*EU-].*)
-            vF/   → ^TP = (.*[/X]#?\+?)   ([AOEU]+F\/)   ([WHRAO\*EU-].*)
-            vBG/  → ^K  = (.*[/X]#?\+?)   ([AOEU]+BG\/)  ([PWHRAO\*EU-].*)
-            vP/   → ^P  = (.*[/X]#?\+?)   ([AOEU]+P\/)   ([WHRAO\*EU-].*)
-            vB/   → ^PW = (.*[/X]#?\+?)   ([AOEU]+B\/)   ([HRAO\*EU-].*)
-            TKEUS/→ STK = (.*[/X]#?\+?\^?)(TKEUS\/)      ([PWHRAO\*EU-].*)
-            ee/   → SK  = (.*[/X]#?\+?\^?)(AOE|E)\/      ([PWHRAO\*EU-].*)
-
-            Interfixes
-            S* → STKPW =(.*)  S([HRAO]*)\*      (.*)
-            TP*→ TP    =(.*)  TP([WHRAO]*)\*    (.*)
-            F  → FB    =(.*)  ([AOEU*-]+)F      ([LGTSDZ/X].*)
-
-
-
-            Suffixes:
-            /KWREU     → *D    = (.*[/X])([#+^STKPWHRAO]+)([EU\-FRPBLGTS]+)\/KWREU([/X].*)
-            PL/TPHAEUT → FRPBT = (.*[/X])([#+^STKPWHRAOEU\-]+)(PL)\/TPHAEUT([/X].*)
-            PL/TPHAEUBGS→FRPBGS= (.*[/X])([#+^STKPWHRAOEU\-]+)(PL)\/TPHAEUBGS([/X].*)
-            /PHEUBG    → FRBG  = (.*[/X])([#+^STKPWHRAOEU\-]+)(\/PHEUBG)([/X].*)
-            /SKWRO(*)  → ^     = (.*[/X]#?\+?)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?/)(SKWRO[\*]?)([/X].*)
-            /KWRO(E)   → ^     = (.*[/X]#?\+?)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?/)(KWRO[E]?)([/X].*)
-            /RO(E)     → ^R    = (.*[/X]#?\+?)([STKPWHRAO\-*EUFPBLGTSDZ]*/)(RO[E]?)([/X].*)
-            /HRAEUGS   → LGS   = (.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?F?R?P?B?)(/HRAEUGS)([/X].*)
-
-            /KHUR      → FRP   = (.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?)(/KHUR)([/X].*)
-            BG/KHUR    → *FRP  = (.*[/X]#?\+?S?T?K?P?W?H?R?A?O?\-?\*?E?U?)(BG/KHUR)([/X].*)
-            #PL/vPB     →FRPB
-
-
-            Not added
-            #^STKP=(.*[/X]#?\+?)  ([AOEU]+PB\/SKWR)([AO\*EU-].*)            ^STKPW → Vng- (*BLT)
-            #^STKPW=(.*[/X]#?\+?)  ([AOEU]+PBG\/)([AO\*EU-].*)
-            #EBG/S→+  = (.*\/#?)      (EBG\/S)       ([TKPWHRAO\*EU-].*) #only Lapwing really does this... this overfitting for sure
-
             """
 
             unchecked_outlines_to_add = ['X' + str(outline) + 'X']
@@ -209,10 +173,64 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                             match = re.fullmatch(r'X?\{([\+\^STKPWHRAO\*EU-].*)', working_outline)
                             if match:
                                 unchecked_outlines_to_add.append("X{#" + match[1])
+                if folding_rules['dis/ → STK-']:
+                    #TKEUS/→ STK
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?)(TKEUS\/)([PWHRAO\*EU-].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "STK" + match[3])
+                if folding_rules['/lation → -LGS']:
+                    #Suffixes
+                    #/HRAEUGS   → -LGS
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/HRAEUGS([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "LGS" + match[2])
+                    #/KWRALT    → -LT
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/KWRALT([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "LT" + match[2])
+                if folding_rules['m/ → -FR (when PL is taken)']:
+                    #PL/TPHAEUT → -FRPBT
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUT([/X].*)', working_outline)
+                    if match: #^HRAOUPL/TPHAEUT
+                        unchecked_outlines_to_add.append(match[1] + "FRPBT" + match[3])
+                    #PL/TPHAEUBGS→-FRPBGS
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUGS([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "FRPBGS" + match[3])
 
+                    #PL/KWREUBG → -FRBG
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWR]*[AOEU]+BG([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "FRBG" + match[3])
 
+                    #PL/KWRAL → -FRL
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWRAOEU]*L([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "FRL" + match[3])
 
-                if folding_rules['josiah_folding']:
+                    #PL/KWRAPBLG → -FRPBLG
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWR]*[AOEU]+PBLG([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "FRPBLG" + match[3])
+
+                    #/PHEUBG    → -FRBG
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(\/PHEUBG)([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "FRBG" + match[3])
+                    
+                    #Suffixes
+                    #PL/vPB     → -FRPB
+                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?E?U?)PL/[AOEU\*\-]+PB([L?G?T?S?D?Z?/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "FRPB" + match[2])
+                if folding_rules['ph → TP-']:
+                    #TP*→ TP
+                    if "ph" in translated_phrase.lower():
+                        match = re.fullmatch(r'(.*[\/X]#?\+?\^?S?)TP([WHRAO]*)\*(.*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "TP" + match[2] + match[3])
+                if folding_rules['vowel/ → ^-']:
+                    #Prefixes
                     #v/   → ^
                     match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+\/)([STKPWHRAO\*EU].*)', working_outline)
                     if match:
@@ -265,9 +283,7 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                     match = re.fullmatch(r'(.*[/X]#?\+?)([AOEU]+B\/)([HRAO\*EU].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "^PW" + match[3])
-                    
-
-
+                if folding_rules['/y → *D']:
                     #Suffixes
                     #/KWREU     → *D
                     match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)\-?(E?U?F?R?P?B?L?G?T?S?)\/KWREU([/X].*)', working_outline)
@@ -281,86 +297,7 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                     match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)([EU\-FRPB]+)\/HRAOEU([/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "*" + str(match[2]).replace("-","") + "LD" + match[3])
-
-                if folding_rules['lapwing_folding'] or folding_rules['plover_folding'] or folding_rules['josiah_folding']:
-                    #TKEUS/→ STK
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?)(TKEUS\/)([PWHRAO\*EU-].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "STK" + match[3])
-                    
-                    #Suffixes
-                    #/HRAEUGS   → -LGS
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/HRAEUGS([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "LGS" + match[2])
-                    #/KWRALT    → -LT
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/KWRALT([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "LT" + match[2])
-
-                if folding_rules['plover_folding'] or folding_rules['josiah_folding']:
-                    #PL/TPHAEUT → -FRPBT
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUT([/X].*)', working_outline)
-                    if match: #^HRAOUPL/TPHAEUT
-                        unchecked_outlines_to_add.append(match[1] + "FRPBT" + match[3])
-                    #PL/TPHAEUBGS→-FRPBGS
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUGS([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRPBGS" + match[3])
-                    #/PHEUBG    → -FRBG
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(\/PHEUBG)([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRBG" + match[3])
-                    
-                    #Suffixes
-                    #PL/vPB     → -FRPB
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?E?U?)PL/[AOEU\*\-]+PB([L?G?T?S?D?Z?/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRPB" + match[2])
-
-                if folding_rules['harri_folding']:
-                    #ee/   → SK
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?)(AOE|E|EU)\/([PWHRAO\*EU-].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "SK" + match[3])
-
-                    #Infixes
-                    #S* → STKPW
-                    if "z" in translated_phrase.lower():
-                        match = re.fullmatch(r'(.*[\/X]#?\+?\^?)S([HRAO]*)\*(.*)', working_outline)
-                        if match:
-                            unchecked_outlines_to_add.append(match[1] + "STKPW" + match[2] + match[3])
-                    #TP*→ TP
-                    if "ph" in translated_phrase.lower():
-                        match = re.fullmatch(r'(.*[\/X]#?\+?\^?S?)TP([WHRAO]*)\*(.*)', working_outline)
-                        if match:
-                            unchecked_outlines_to_add.append(match[1] + "TP" + match[2] + match[3])
-                                        #Infixes
-                    #F  → FB
-                    if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
-                        match = re.fullmatch(r'(.*)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
-                        if match:
-                            unchecked_outlines_to_add.append(match[1] + match[2] + "FB"  + match[3])
-
-                    #suffixes
-                    #/SKWRO(*)  → ^
-                    match = re.fullmatch(r'(.*[/X][#+]*)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?)/SKWRO[*]?([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "^" + match[2] + match[3])
-                    #/KWRO(E)   → ^
-                    match = re.fullmatch(r'(.*[/X][#+]*)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?)/KWRO[E]?([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "^" + match[2] + match[3])
-                    #/RO(E)     → ^-R
-                    match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?[AO\-\*EU]+F?)([PBLGTSDZ]*)/RO[E]?([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "^" + match[2] + "R" + match[3] + match[4])
-                    #^HR        → ^-L
-                    match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/HRO[E]?([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "^" + match[2] + "L" + match[3])
-
-                if folding_rules['ex being ^SK']:
+                if folding_rules['ex/ → ^SK-']:
                     #S(*)/KP(*)/SK(*)/SP(*) → ^SK
                     if "ex" in translated_phrase.lower():
                         #S
@@ -395,18 +332,48 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                             match = re.fullmatch(r'(.*[\/X]#?\+?)SP(W?H?R?A?O?)\*([\/X].*)', working_outline)
                             if match:
                                 unchecked_outlines_to_add.append(match[1] + "^SK" + match[2] + match[3])
-
-                if folding_rules['FRP for chure, and *FRP for ckchure']:
-
+                if folding_rules['v  → -FB']:
+                    #Infixes
+                    #F  → FB
+                    if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
+                        match = re.fullmatch(r'(.*)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + match[2] + "FB"  + match[3])
+                if folding_rules['z → STKPW-']:
+                    #Infixes
+                    #S* → STKPW
+                    if "z" in translated_phrase.lower():
+                        match = re.fullmatch(r'(.*[\/X]#?\+?\^?)S([HRAO]*)\*(.*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "STKPW" + match[2] + match[3])
+                if folding_rules['/chure → -FRP']:
                     #/KHUR      → -FRP
                     match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)/KHUR(B?L?G?T?S?D?Z?[/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "FRP" + match[2])
+                if folding_rules['/ckchure → *FRP']:
                     #BG/KHUR    → *FRP
                     match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)\-?(E?U?)BG/KHUR(T?S?D?Z?[/X].*)', working_outline)
                     if match:
                         unchecked_outlines_to_add.append(match[1] + "*" + match[2] + "FRP" + match[3])
-
+                if folding_rules['/yoe → ^-']:
+                    #suffixes
+                    #/SKWRO(*)  → ^
+                    match = re.fullmatch(r'(.*[/X][#+]*)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?)/SKWRO[*]?([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "^" + match[2] + match[3])
+                    #/KWRO(E)   → ^
+                    match = re.fullmatch(r'(.*[/X][#+]*)(S?T?K?P?W?H?R?A?O?E?U?\-?F?R?P?B?L?G?T?S?D?Z?)/KWRO[E]?([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "^" + match[2] + match[3])
+                    #/RO(E)     → ^-R
+                    match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?[AO\-\*EU]+F?)([PBLGTSDZ]*)/RO[E]?([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "^" + match[2] + "R" + match[3] + match[4])
+                    #^HR        → ^-L
+                    match = re.fullmatch(r'(.*[/X]#?\+?)(S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?B?)/HRO[E]?([/X].*)', working_outline)
+                    if match:
+                        unchecked_outlines_to_add.append(match[1] + "^" + match[2] + "L" + match[3])
 
                 checked_outlines_to_add.append(working_outline)
                 ###########check for duplicates

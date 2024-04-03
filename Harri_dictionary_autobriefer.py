@@ -17,7 +17,7 @@ folding_rules = {
     '/lation → -LGS'    : False,
 
     #Plover
-    'm/ → -FR (when PL is taken)'     : True,
+    'm/ → -FR (when PL is taken)'     : False,
     'ph → TP-'          : False, #Lapwing uses TP*
 
     #Josiah

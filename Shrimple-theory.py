@@ -6,7 +6,8 @@ Key considerations were that it wasn't tailored for English, as this is mostly f
 @Jalexu is not on GitHub so DM them for the most up to date version
 """
 
-entry_stroke="SKWR-RBGS"
+starterstroke = '#T'   #if you don't have Lapwing's plug-in, #T will have to be 2
+startercap = '#TP'
 
 
 starter_letter={
@@ -2340,11 +2341,9 @@ def aericks_denumberizer(old_outline):
 
 def lookup(strokes):
 
-    if not strokes[0] == entry_stroke:
+    if (not strokes[0] == starterstroke) and (not strokes[0] == startercap):
         raise KeyError
-
-
-
+    
     output_string=""
 
     for stroke in strokes:
@@ -2372,7 +2371,21 @@ def lookup(strokes):
             raise KeyError
         if stroke=="AEZ":
             raise KeyError
-
+        if stroke=="A*ES":
+            raise KeyError
+        if stroke=="AES":
+            raise KeyError
+        if stroke=="HAESH":
+            raise KeyError
+        if stroke=="KWRA*T":
+            raise KeyError
+        if stroke=="P-P":
+            raise KeyError
+        if stroke=="H-N":
+            raise KeyError
+        if stroke=="H*N":
+            raise KeyError
+        
         #navigation
         if stroke=="STPH-R":
             raise KeyError
@@ -2395,18 +2408,13 @@ def lookup(strokes):
         if "LTZ" in stroke:
             raise KeyError
 
-
     if (len(strokes)) == 1:
         return(" ")
 
     for stroke_number in range(len(strokes)):
 
-
-
-        if not stroke_number ==0 and strokes[stroke_number] ==entry_stroke:
+        if (not stroke_number ==0 and strokes[stroke_number] == starterstroke) and (not stroke_number ==0 and strokes[stroke_number] == startercap):
             raise KeyError
-
-
 
         #match the strokes
         match= re.fullmatch(
@@ -2428,8 +2436,6 @@ def lookup(strokes):
             end_thing=ender_letter[match[4]]
         middle_thing=vowels[match[3].replace("*","")]
 
-
-
         if not stroke_number==0:
             if "#" in match[1]:
                 output_string+=(
@@ -2444,4 +2450,6 @@ def lookup(strokes):
                     middle_thing+
                     end_thing
                     )
+    if strokes[0] == startercap:
+        return output_string.capitalize()
     return output_string

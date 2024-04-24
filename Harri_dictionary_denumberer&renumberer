@@ -8,7 +8,7 @@ renumber outlines
 """
 
 
-dictionaries_to_denumber = []
+dictionaries_to_denumber = [main, lapwing-base]
 
 dictionaries_to_renumber = []
 

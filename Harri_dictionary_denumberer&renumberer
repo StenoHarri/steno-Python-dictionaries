@@ -7,11 +7,19 @@ renumber outlines
 #STKPW -> 12K3W
 """
 
+
+dictionaries_to_denumber = []
+
+dictionaries_to_renumber = []
+
+dictionaries_to_just_replace_stuff = []
+
+
+
+
 import json
 import re
 
-with open('input-file.json') as dictionary:
-    old_outlines = json.load(dictionary)
 
 
 numbers_to_letters = {
@@ -27,7 +35,7 @@ numbers_to_letters = {
     "0": "O"
     }
 
-def aericks_denumberizer(old_outline):
+def aericks_outline_denumberizer(old_outline):
 
     old_strokes = old_outline.split("/")
     new_strokes = []
@@ -50,13 +58,12 @@ def aericks_denumberizer(old_outline):
 
     return "/".join(new_strokes)
 
-
-def harris_renumberizer(hashed_outline):
+def harris_outline_renumberizer(hashed_outline):
     hashed_strokes = hashed_outline.split("/")
     numbered_strokes = []
-    
+
     for stroke in hashed_strokes:
-        match = re.fullmatch(r'(#?)(S?T?K?P?W?H?R?A?O?\*?)(-?E?U?F?R?P?B?L?G?T?S?D?Z?)', stroke)
+        match = re.fullmatch(r'(#?)(\^?S?T?K?P?W?H?R?A?O?\*?)(-?E?U?F?R?P?B?L?G?T?S?D?Z?)', stroke)
         if not match[1] == '#':
             numbered_strokes.append(match[2]+match[3])
         else:
@@ -66,7 +73,7 @@ def harris_renumberizer(hashed_outline):
                         'P','3').replace(
                             'H','4').replace(
                                 'A','5').replace(
-                                    'O','0') + 
+                                    'O','0') +
                             match[3].replace(
                                 'F','6').replace(
                                     'P','7').replace(
@@ -78,19 +85,71 @@ def harris_renumberizer(hashed_outline):
                 numbered_strokes.append(match[1]+numbered_stroke)
     return "/".join(numbered_strokes)
 
+def just_replace_stuffizer(original_outline):
+    return original_outline.replace(
+        '#','🧇').replace(
+            'S','🧇').replace(
+                'T','✨').replace(
+                    'P','3').replace(
+                        'H','4').replace(
+                            'A','5').replace(
+                                'O','0').replace(
+                                    'F','6').replace(
+                                        'P','7').replace(
+                                            'L','8').replace(
+                                                'T','9'))
+
+def dictionary_denumberizer(dictionary):
+
+    #Open dictionary
+    with open(dictionary+'.json', "r", encoding="utf-8") as dictionary_contents:
+        old_outlines = json.load(dictionary_contents)
+    new_outlines={}
+
+    #Denumber the outlines
+    for old_outline in old_outlines.keys():
+        new_outlines[aericks_outline_denumberizer(old_outline)] = old_outlines[old_outline]
+
+    #Write to new dictionary
+    with open(dictionary+"_denumbered.json", "w") as outfile:
+        json.dump(new_outlines, outfile, indent = 0)
+
+def dictionary_renumberizer(dictionary):
+
+    #Open dictionary
+    with open(dictionary+'.json', "r", encoding="utf-8") as dictionary_contents:
+        old_outlines = json.load(dictionary_contents)
+    new_outlines={}
+
+    #Denumber the outlines
+    for old_outline in old_outlines.keys():
+        new_outlines[harris_outline_renumberizer(old_outline)] = old_outlines[old_outline]
+
+    #Write to new dictionary
+    with open(dictionary+"_renumbered.json", "w") as outfile:
+        json.dump(new_outlines, outfile, indent = 0)
+
+def dictionary_just_replace_stuffizer(dictionary):
+
+    #Open dictionary
+    with open(dictionary+'.json', "r", encoding="utf-8") as dictionary_contents:
+        old_outlines = json.load(dictionary_contents)
+    new_outlines={}
+
+    #Denumber the outlines
+    for old_outline in old_outlines.keys():
+        new_outlines[just_replace_stuffizer(old_outline)] = old_outlines[old_outline]
+
+    #Write to new dictionary
+    with open(dictionary+"_replace.json", "w") as outfile:
+        json.dump(new_outlines, outfile, indent = 0)
 
 
+for dictionary in dictionaries_to_denumber:
+    dictionary_denumberizer(dictionary)
 
-new_outlines={}
+for dictionary in dictionaries_to_renumber:
+    dictionary_renumberizer(dictionary)
 
-for old_outline in old_outlines.keys():
-
-    #Pick one, comment out the other
-
-    new_outlines[aericks_denumberizer(old_outline)] = old_outlines[old_outline]
-
-    #new_outlines[harris_renumberizer(old_outline)] = old_outlines[old_outline]
-
-
-with open("output_file.json", "w") as outfile:
-    json.dump(new_outlines, outfile)
+for dictionary in dictionaries_to_just_replace_stuff:
+    dictionary_just_replace_stuffizer(dictionary)

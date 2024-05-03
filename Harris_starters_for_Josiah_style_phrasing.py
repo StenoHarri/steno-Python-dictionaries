@@ -4,9 +4,13 @@
 
 starters={
     '':'',
-    '^HR'       :'a lot'
+    '^HR'       :'a lot',
     'STKW'      :'does',
+    'STPHE'     :'instead',
+    'STPHAOE'   :'indeed',
     'STPHAOEU'  :'inside',
+    'SPAOEU'    :'spite',
+    'TKPWO'     :'got',
     'TKPWOU'    :'get out',
     'TKW'       :'do',
     'THAU'      :'thought',
@@ -15,9 +19,12 @@ starters={
     'PWE'       :'best',
     'PHAE'      :'many',
     'PHOE'      :'most',
+    'PROU'      :'proud',
     'WOE'       :'worst',
+    'WU'        :'one',
     'HRA'       :'last',
     'RE'        :'rest',
+    'AOE'       :'each',
     'AOU'       :'out',
     'OU'        :'out',
 }

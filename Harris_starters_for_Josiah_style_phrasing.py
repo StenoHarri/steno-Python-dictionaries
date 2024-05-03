@@ -4,6 +4,7 @@
 
 starters={
     '':'',
+    '^SPAOEU'   :'in spite',
     '^HR'       :'a lot',
     'STKW'      :'does',
     'STPHE'     :'instead',

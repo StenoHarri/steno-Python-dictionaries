@@ -6,8 +6,8 @@ Key considerations were that it wasn't tailored for English, as this is mostly f
 @Jalexu is not on GitHub so DM them for the most up to date version
 """
 
-starterstroke = '#T'   #if you don't have Lapwing's plug-in, #T will have to be 2
-startercap = '#TP'
+starterstroke = 'SHREUFRP'   #if you don't have Lapwing's plug-in, #T will have to be 2
+startercap = 'SHR*EUFRP'
 
 
 starter_letter={

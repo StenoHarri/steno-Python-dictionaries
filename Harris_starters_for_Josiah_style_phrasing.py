@@ -73,8 +73,6 @@ for starter in starters:
             joined_dictionary[(starter+ender).replace("U*","*U").replace("E*","*E")] = starters[starter]+enders[ender]
 
 
-print(joined_dictionary)
-
 LONGEST_KEY = 1
 
 def lookup(strokes):

@@ -88,8 +88,10 @@ ender_letter={
     "*PZ":"h",
     "PS":"h",
     "*BG":"ck",
+    "*LG":"lk",
     "*T":"th",
-    "*S":"c",
+    "*S":"st",
+    "*SZ":"c",
     "*D":"y",
     "*DZ":"e",
     "*Z":"z",
@@ -110,6 +112,7 @@ ender_letter={
 
     "P":"p",
     "PB":"n",
+    "PBLG":"j",
     "PBG":"ng",
     "PL":"m",
     #PZ for h?
@@ -171,7 +174,42 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "PW-FP",
 ]
 
+chords_you_can_use_to_exit_shrimple_with={
 
+    #Emily's stuff (might also have to do this for my phrasing too?)
+    "SKWH",
+    "LTZ"
+
+    #Jeff's full phrasing
+    "SWR",  #I
+    "TWR",  #we
+    "KPWR", #you
+    "KWHR", #he
+    "SKWHR",#she
+    "KPWH", #it
+    "TWH",  #they
+    "STKH", #this
+    "STKWH",#these
+    "STWH", #that
+    "STHR", #there
+    "STPHR",#there
+    "STKPWHR",#null
+    "STWR", #null
+
+    #Jeff's simple starters
+    "STPA", #if
+    "STHA", #that
+    "SWH",  #when
+    "SWHR", #where
+    "SWHA", #what
+    "SWHO", #who
+    "SWHAO",#why
+    "SWHRAO",#how
+    "SPWH", #but
+    "SKP",  #and
+    "SKPR", #or
+
+}
 
 
 
@@ -354,11 +392,11 @@ def lookup(strokes):
         if stroke in strokes_you_can_use_to_exit_shrimple_with:
             raise KeyError
         
-        #Emily's stuff (might also have to do this for my phrasing too?)
-        if "SKWH"in stroke:
-            raise KeyError
-        if "LTZ" in stroke:
-            raise KeyError
+        for chord in chords_you_can_use_to_exit_shrimple_with:
+            if chord in stroke:
+                raise KeyError
+
+
 
     if (len(strokes)) == 1 and dedicated_key not in strokes[0]:
         return(" ")

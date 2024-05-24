@@ -13,38 +13,24 @@ startercap = 'SHR*EUFRPL'
 starter_letter={
     "" : "",
 
-    "^":"a",
-    "^SK":"ex",
-    "^SKPH":"em",
-    "^SKHR":"excl",
-    "^SKR":"excr", #maybe?
-    "^TPH":"on ", #maybe?
-    "^SKWR":"eng", #maybe?
 
     "S" : "s",
-    "STK": "dis",
-    "STKPW": "z", #I've decided not disg
-    "SKPH":"im",
-    "SKP": "and ",
+    "STKPW": "z",
     "SKWR": "j",
     "SKHR": "shr",
-    "SPW":"int",
     "SH" : "sh",
     "SR" : "v",
-    #"S*" : "z",
 
     "T" : "t",
     "TK": "d",
     "TKPW":"g",
-    "TKW":"dev",
     "TKR":"dr",
     "TP": "f",
     "TPH": "n",
 
     "K":"k",
     "KP":"x",
-    "KPW":"imp",
-    "KW":"q", #interesting, cause vowel?
+    "KW":"q",
     "KWR":"y",
     "KH":"ch",
     "KR":"c",
@@ -94,7 +80,7 @@ vowels={
 
 ender_letter={
     "":"",
-    "*":"[delete me]",
+    "*":"[delete me]", #asterisk on its own is invalid
     "*FRPB":"nch",
     "*FT":"ft",
     "*PBG":"nk",
@@ -112,41 +98,29 @@ ender_letter={
     "FRP":"mp",
     "FRPB":"rch",
     "FRPL":"mpl",
-    "FRB":"mb", #come back to this
+    "FRB":"mb",
     "FRL":"ml",
     "FRBL":"mbl",
     "FP":"ch",
-    "FPL":"tual",
-    "FPLT":"{.}",
     "FB":"v",
     "FT":"st",
 
-    "R":"r", #if o, then end in e
-    "RPBLG":"rg",
+    "R":"r", 
     "RB":"sh", #unless AU to make it rb carb barb
-    "RBL":"rrow",
     "RBT":"tial",
-    "RBG":"rk",
-    "RBGS":"{,}",
     "RBS":"tious",
 
     "P":"p",
     "PB":"n",
-    "PBLG":"dg",
-    "PBLGS":"jection",
     "PBG":"ng",
-    "PBGS":"nction",
     "PL":"m",
     #PZ for h?
 
     "B":"b",
-    "BLG":"ckle",
     "BG":"k",
-    "BGT":"ct", 
-    "BGTS":"cts",
-    "BGS":"x", #I don't know about ction, maybe asterisk?
+    "BGS":"x",
 
-    "L":"l", #come back to this
+    "L":"l",
 
     "G":"g",
     "GT":"xt",

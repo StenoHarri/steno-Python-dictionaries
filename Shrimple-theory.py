@@ -3,16 +3,16 @@
 Key considerations were that it wasn't tailored for English, as this is mostly for foreign words/names
 
 
-@Jalexu is not on GitHub so DM them for the most up to date version
 """
 
 starterstroke = 'SHREUFRPL'   #if you don't have Lapwing's plug-in, #T will have to be 2
 startercap = 'SHR*EUFRPL'
+acronyms = 'KAPS'
+
 
 
 starter_letter={
     "" : "",
-
 
     "S" : "s",
     "STKPW": "z",
@@ -24,7 +24,7 @@ starter_letter={
     "T" : "t",
     "TK": "d",
     "TKPW":"g",
-    "TKR":"dr",
+    #"TKR":"dr",
     "TP": "f",
     "TPH": "n",
 
@@ -80,7 +80,7 @@ vowels={
 
 ender_letter={
     "":"",
-    "*":"[delete me]", #asterisk on its own is invalid
+    "*":"", #asterisk on its own is invalid
     "*FRPB":"nch",
     "*FT":"ft",
     "*PBG":"nk",
@@ -141,13 +141,51 @@ ender_letter={
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import re
 
 LONGEST_KEY = 20
-
-
-
-
 
 
 def construct_every_combination(part_of_the_keyboard):
@@ -234,7 +272,9 @@ def aericks_denumberizer(old_outline):
 
 def lookup(strokes):
 
-    if (not strokes[0] == starterstroke) and (not strokes[0] == startercap):
+    if ((not strokes[0] == starterstroke) and
+        (not strokes[0] == startercap) and
+        (not strokes[0] == acronyms)):
         raise KeyError
     
     output_string=""
@@ -278,6 +318,8 @@ def lookup(strokes):
             raise KeyError
         if stroke=="H*N":
             raise KeyError
+        if stroke=="TPHO*FRL":
+            raise KeyError
         
         #navigation
         if stroke=="STPH-R":
@@ -306,7 +348,9 @@ def lookup(strokes):
 
     for stroke_number in range(len(strokes)):
 
-        if (not stroke_number ==0 and strokes[stroke_number] == starterstroke) and (not stroke_number ==0 and strokes[stroke_number] == startercap):
+        if ((not stroke_number ==0 and strokes[stroke_number] == starterstroke) and
+            (not stroke_number ==0 and strokes[stroke_number] == startercap) and
+            (not stroke_number ==0 and strokes[stroke_number] == acronyms)):
             raise KeyError
 
         #match the strokes
@@ -323,8 +367,8 @@ def lookup(strokes):
         start_thing=starter_letter[match[2]]
         if "*" in match[3]:
             end_thing=ender_letter["*"+match[4]]
-            if not end_thing:
-                raise KeyError
+            #if not end_thing:
+            #    raise KeyError
         else:
             end_thing=ender_letter[match[4]]
         middle_thing=vowels[match[3].replace("*","")]
@@ -345,4 +389,9 @@ def lookup(strokes):
                     )
     if strokes[0] == startercap:
         return output_string.capitalize()
+    if strokes[0] == acronyms:
+        return output_string.upper()
     return output_string
+
+
+

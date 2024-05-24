@@ -5,9 +5,9 @@ Key considerations were that it wasn't tailored for English, as this is mostly f
 
 """
 
-starterstroke = 'SHREUFRPL'   #if you don't have Lapwing's plug-in, #T will have to be 2
-startercap = 'SHR*EUFRPL'
-acronyms = 'KAPS'
+starterstroke = 'SHREUFRPL'     #shrimple
+startercap    = 'SHR*EUFRPL'    #shrimple but capped the first letter
+acronyms      = 'KAPS'          #shrimple but all caps
 
 
 
@@ -24,7 +24,7 @@ starter_letter={
     "T" : "t",
     "TK": "d",
     "TKPW":"g",
-    #"TKR":"dr",
+    "TKR":"dr", #conflict with tc
     "TP": "f",
     "TPH": "n",
 
@@ -38,7 +38,7 @@ starter_letter={
     "P":"p",
     "PW":"b",
     "PH":"m",
-    "PHR":"pl", #I've decided not mr
+    "PHR":"pl", #conflict with mr
 
     "W":"w",
 
@@ -87,7 +87,6 @@ ender_letter={
     "*PZ":"h",
     "PS":"h",
     "*BG":"ck",
-    "*BGS":"ction",
     "*T":"th",
     "*S":"c",
     "*D":"y",
@@ -107,8 +106,6 @@ ender_letter={
 
     "R":"r", 
     "RB":"sh", #unless AU to make it rb carb barb
-    "RBT":"tial",
-    "RBS":"tious",
 
     "P":"p",
     "PB":"n",
@@ -132,9 +129,8 @@ ender_letter={
 
     "S":"s", #might be some logic here for c? Realtime uses `SZ` for c
     "SD":"e",
-    
+
     "D":"d",
-    
 
     "Z":"e"
 
@@ -173,6 +169,42 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "STPH-G",
     "PW-FP",
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -8,6 +8,7 @@ Key considerations were that it wasn't tailored for English, as this is mostly f
 starterstroke = 'SHREUFRPL'     #shrimple
 startercap    = 'SHR*EUFRPL'    #shrimple but capped the first letter
 acronyms      = 'KAPS'          #shrimple but all caps
+dedicated_key = '+'             #Instead of a starter stroke
 
 
 
@@ -340,13 +341,14 @@ def lookup(strokes):
 
     if ((not strokes[0] == starterstroke) and
         (not strokes[0] == startercap) and
-        (not strokes[0] == acronyms)):
+        (not strokes[0] == acronyms) and
+        (not dedicated_key in strokes[0])):
         raise KeyError
     
     output_string=""
 
     for stroke in strokes:
-        if stroke=="+":
+        if stroke==dedicated_key:
             raise KeyError
 
         if stroke in strokes_you_can_use_to_exit_shrimple_with:
@@ -358,20 +360,21 @@ def lookup(strokes):
         if "LTZ" in stroke:
             raise KeyError
 
-    if (len(strokes)) == 1:
+    if (len(strokes)) == 1 and dedicated_key not in strokes[0]:
         return(" ")
 
     for stroke_number in range(len(strokes)):
 
-        if ((not stroke_number ==0 and strokes[stroke_number] == starterstroke) and
-            (not stroke_number ==0 and strokes[stroke_number] == startercap) and
-            (not stroke_number ==0 and strokes[stroke_number] == acronyms)):
+        if ((not stroke_number ==0 and strokes[stroke_number] == starterstroke) or
+            (not stroke_number ==0 and strokes[stroke_number] == startercap) or
+            (not stroke_number ==0 and strokes[stroke_number] == acronyms) or
+            (not stroke_number ==0 and dedicated_key in strokes[stroke_number])):
             raise KeyError
 
         #match the strokes
         match= re.fullmatch(
             #dissect the string to starter_letters, vowels and ender_letters
-            r'(#?)(\^?S?T?K?P?W?H?R?)(A?O?\*?\-?E?U?)(F?R?P?B?L?G?T?S?D?Z?)',
+            r'\+?(#?)(\^?S?T?K?P?W?H?R?)(A?O?\*?\-?E?U?)(F?R?P?B?L?G?T?S?D?Z?)',
 
             #this string:
             aericks_denumberizer(strokes[stroke_number]))
@@ -388,7 +391,9 @@ def lookup(strokes):
             end_thing=ender_letter[match[4]]
         middle_thing=vowels[match[3].replace("*","")]
 
-        if not stroke_number==0:
+        
+
+        if not stroke_number==0 or (dedicated_key in strokes[0]):
             if "#" in match[1]:
                 output_string+=(
                     (start_thing+
@@ -402,11 +407,14 @@ def lookup(strokes):
                     middle_thing+
                     end_thing
                     )
+
+
+
+
     if strokes[0] == startercap:
         return output_string.capitalize()
     if strokes[0] == acronyms:
         return output_string.upper()
     return output_string
 
-
-
+print(lookup(['+TEFT','+TEFT']))

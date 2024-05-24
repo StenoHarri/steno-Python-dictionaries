@@ -157,7 +157,7 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "AEZ",      #'s
     "A*ES",     #s'
     "AES",      #'s
-    "HAESH",    ##
+    "HAERB",    ##
     "KWRA*T",   #@
     "P-P",      #.
     "H-N",      #-

@@ -377,7 +377,7 @@ def lookup(strokes):
             r'\+?(#?)(\^?S?T?K?P?W?H?R?)(A?O?\*?\-?E?U?)(F?R?P?B?L?G?T?S?D?Z?)',
 
             #this string:
-            aericks_denumberizer(strokes[stroke_number].replace(dedicated_key,""))
+            aericks_denumberizer(strokes[stroke_number].replace(dedicated_key,"")))
 
         if not match:
             raise KeyError

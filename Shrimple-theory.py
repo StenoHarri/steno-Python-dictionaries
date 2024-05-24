@@ -142,6 +142,38 @@ ender_letter={
 
 
 
+strokes_you_can_use_to_exit_shrimple_with=[
+
+    #punctuation
+    "TK-LS",    #no space
+    "S-P",      #space
+    "KPA",      #caps
+    "KPA*",     #caps no space
+    "R-R",      #enter
+    "TP-PL",    #.
+    "KW-PL",    #?
+    "TP-BG",    #!
+    "KW-BG",    #,
+    "AEZ",      #'s
+    "A*ES",     #s'
+    "AES",      #'s
+    "HAESH",    ##
+    "KWRA*T",   #@
+    "P-P",      #.
+    "H-N",      #-
+    "H*N",      #-
+    "TPHO*FRL", #normal
+    
+    #navigation
+    "STPH-R",
+    "STPH-RB",
+    "STPH-P",
+    "STPH-B",
+    "STPH-BG",
+    "STPH-G",
+    "PW-FP",
+]
+
 
 
 
@@ -270,6 +302,8 @@ def aericks_denumberizer(old_outline):
     return "/".join(new_strokes)
 
 
+
+
 def lookup(strokes):
 
     if ((not strokes[0] == starterstroke) and
@@ -283,58 +317,7 @@ def lookup(strokes):
         if stroke=="+":
             raise KeyError
 
-        #punctuation
-        if stroke=="TK-LS":
-            raise KeyError
-        if stroke=="S-P":
-            raise KeyError
-        if stroke=="KPA":
-            raise KeyError
-        if stroke=="KPA*":
-            raise KeyError
-        if stroke=="R-R":
-            raise KeyError
-        if stroke=="TP-PL":
-            raise KeyError
-        if stroke=="KW-PL":
-            raise KeyError
-        if stroke=="TP-BG":
-            raise KeyError
-        if stroke=="KW-BG":
-            raise KeyError
-        if stroke=="AEZ":
-            raise KeyError
-        if stroke=="A*ES":
-            raise KeyError
-        if stroke=="AES":
-            raise KeyError
-        if stroke=="HAESH":
-            raise KeyError
-        if stroke=="KWRA*T":
-            raise KeyError
-        if stroke=="P-P":
-            raise KeyError
-        if stroke=="H-N":
-            raise KeyError
-        if stroke=="H*N":
-            raise KeyError
-        if stroke=="TPHO*FRL":
-            raise KeyError
-        
-        #navigation
-        if stroke=="STPH-R":
-            raise KeyError
-        if stroke=="STPH-RB":
-            raise KeyError
-        if stroke=="STPH-P":
-            raise KeyError
-        if stroke=="STPH-B":
-            raise KeyError
-        if stroke=="STPH-BG":
-            raise KeyError
-        if stroke=="STPH-G":
-            raise KeyError
-        if stroke=="PW-FP":
+        if stroke in strokes_you_can_use_to_exit_shrimple_with:
             raise KeyError
         
         #Emily's stuff (might also have to do this for my phrasing too?)

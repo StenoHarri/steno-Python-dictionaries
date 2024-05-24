@@ -174,11 +174,30 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "PW-FP",
 ]
 
-chords_you_can_use_to_exit_shrimple_with={
+left_finger_chords_you_can_use_to_exit_shrimple_with={
 
     #Emily's stuff (might also have to do this for my phrasing too?)
     "SKWH",
-    "LTZ"
+
+    #Jeff's full phrasing
+    "SWR",  #I
+    "TWR",  #we
+    "KPWR", #you
+    "KWHR", #he
+    "SKWHR",#she
+    "KPWH", #it
+    "TWH",  #they
+    "STKH", #this
+    "STKWH",#these
+    "STWH", #that
+    "STHR", #there
+    "STPHR",#there
+    "STKPWHR",#null
+    "STWR", #null
+
+}
+
+left_hand_chords_you_can_use_to_exit_shrimple_with={
 
     #Jeff's full phrasing
     "SWR",  #I
@@ -212,9 +231,11 @@ chords_you_can_use_to_exit_shrimple_with={
 }
 
 
+right_finger_chords_you_can_use_to_exit_shrimple_with={
 
-
-
+    #Emily's stuff (might also have to do this for my phrasing too?)
+    "LTZ"
+}
 
 
 
@@ -391,10 +412,18 @@ def lookup(strokes):
 
         if stroke in strokes_you_can_use_to_exit_shrimple_with:
             raise KeyError
+
         
-        for chord in chords_you_can_use_to_exit_shrimple_with:
-            if chord in stroke:
+        match = re.fullmatch(r'(#?\^?S?T?K?P?W?H?R?)(A?O?)(\*?\-?E?U?)(F?R?P?B?L?G?T?S?D?Z?)', stroke.replace(dedicated_key,""))
+        if match:
+
+            if match[1] in left_finger_chords_you_can_use_to_exit_shrimple_with:
                 raise KeyError
+            if match[1]+match[2] in left_hand_chords_you_can_use_to_exit_shrimple_with:
+                raise KeyError
+            if match[4] in right_finger_chords_you_can_use_to_exit_shrimple_with:
+                raise KeyError
+        
 
 
 

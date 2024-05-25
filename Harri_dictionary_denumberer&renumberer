@@ -97,7 +97,7 @@ def just_replace_stuffizer(original_outline):
                                     'F','6').replace(
                                         'P','7').replace(
                                             'L','8').replace(
-                                                'T','9'))
+                                                'T','9')
 
 def dictionary_denumberizer(dictionary):
 

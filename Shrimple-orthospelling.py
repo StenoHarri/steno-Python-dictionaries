@@ -5,7 +5,8 @@ Key considerations were that it wasn't tailored for English, as this is mostly f
 
 """
 
-starterstroke = 'SHREUFRPL'     #shrimple
+starternormal = 'SP*'           #shrimple with normal formatting
+starterattached='SW*'           #shrimple with not space at the start
 startercap    = 'SHR*EUFRPL'    #shrimple but capped the first letter
 acronyms      = 'KAPS'          #shrimple but all caps
 dedicated_key = '+'             #Instead of a starter stroke
@@ -57,6 +58,10 @@ vowels={
     "":"",
 
     "*":"",
+    "A*":"u",
+    "AO*":"i",
+    "O*":"e",
+
 
     "A"   :"a",
     "AO"  :"oo",
@@ -151,8 +156,11 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "KPA*",     #caps no space
     "R-R",      #enter
     "TP-PL",    #.
+    "TA*B",     #can't remember
+    "TPWA*",    #left hand tab
+    "R*",       #left hand return
     "KW-PL",    #?
-    "TP-BG",    #!
+    "TP-BG",    #o
     "KW-BG",    #,
     "AEZ",      #'s
     "A*ES",     #s'
@@ -163,6 +171,7 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "H-N",      #-
     "H*N",      #-
     "TPHO*FRL", #normal
+    "*",        #delete
     
     #navigation
     "STPH-R",
@@ -398,8 +407,9 @@ def aericks_denumberizer(old_outline):
 
 def lookup(strokes):
 
-    if ((not strokes[0] == starterstroke) and
+    if ((not strokes[0] == starternormal) and
         (not strokes[0] == startercap) and
+        (not strokes[0] == starterattached) and
         (not strokes[0] == acronyms) and
         (not dedicated_key in strokes[0])):
         raise KeyError
@@ -428,11 +438,15 @@ def lookup(strokes):
 
 
     if (len(strokes)) == 1 and dedicated_key not in strokes[0]:
-        return(" ")
+        if strokes[0]==starterattached:
+            return ("{^}")
+        else:
+            return("{^ ^}")
 
     for stroke_number in range(len(strokes)):
 
-        if ((not stroke_number ==0 and strokes[stroke_number] == starterstroke) or
+        if ((not stroke_number ==0 and strokes[stroke_number] == starternormal) or
+            (not stroke_number ==0 and strokes[stroke_number] == starterattached) or
             (not stroke_number ==0 and strokes[stroke_number] == startercap) or
             (not stroke_number ==0 and strokes[stroke_number] == acronyms) or
             (not stroke_number ==0 and dedicated_key in strokes[stroke_number])):
@@ -449,14 +463,21 @@ def lookup(strokes):
         if not match:
             raise KeyError
 
+
+
         start_thing=starter_letter[match[2]]
         if "*" in match[3]:
             end_thing=ender_letter["*"+match[4]]
-            #if not end_thing:
-            #    raise KeyError
+            if end_thing == "":
+                middle_thing=vowels[match[3]]
+            else:
+                middle_thing=vowels[match[3].replace("*","")]
+
+
         else:
             end_thing=ender_letter[match[4]]
-        middle_thing=vowels[match[3].replace("*","")]
+            middle_thing=vowels[match[3].replace("*","")]
+
 
         
 
@@ -482,5 +503,8 @@ def lookup(strokes):
         return output_string.capitalize()
     if strokes[0] == acronyms:
         return output_string.upper()
+    if strokes[0] == starterattached:
+        return "{^^}"+output_string
     return output_string
+
 

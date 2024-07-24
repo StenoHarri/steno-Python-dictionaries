@@ -15,7 +15,7 @@ starter_chord = {
    "#"       : {"prefix" : " ",
                 "suffix" : " "},
    
-   #KWR for sticking stuff, so no spacing (except first number)
+   #KWR for sticking stuff, so no spacing
    "#KWR"    : {"prefix" : "{^",
               "suffix"   : "}"},
 

@@ -16,7 +16,7 @@ starter_chord = {
                 "suffix" : " "},
    
    #KWR for sticking stuff, so no spacing (except first number)
-   "#KWR"    : {"prefix" : "{&",
+   "#KWR"    : {"prefix" : "{^",
               "suffix"   : "}"},
 
     #KL for clock stuff
@@ -51,9 +51,7 @@ starter_chord = {
 }
 
 linker_chord = { #by linker, I mean collapsing a 100 with 23 to output 123 (two strokes)
-    "#"       : True,
-    "#PO"     : True,
-    "#TKHRA"  : True
+    
 }
 
 

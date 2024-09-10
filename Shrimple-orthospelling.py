@@ -9,7 +9,8 @@ entry_strokes={
     "starter attached":['KWR', 'SW*'],      #shrimple with not space at the start
     "starter cap"     :['TPH*'],            #shrimple but capped the first letter
     "starter acronyms":['KAPS'],            #shrimple but all caps
-    "starter cap attached":['TPH*FPLT']
+    "starter cap attached":['TPH*FPLT'],
+    "starter acronyms attached":['TPH*FPLTS']
 }
 
 
@@ -567,6 +568,8 @@ def lookup(strokes):
         return "{^^}"+output_string
     if strokes[0] in entry_strokes['starter cap attached']:
         return "{^^}"+output_string.capitalize()
+    if strokes[0] in entry_strokes['starter acronyms attached']:
+        return "{^^}"+output_string.upper()
     return output_string
 
 #lookup(("+KAPZ","KWROU"))

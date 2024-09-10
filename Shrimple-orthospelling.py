@@ -1,39 +1,52 @@
 """
 @Jalexu on discord had an idea for fingerspelling using the whole keyboard, not just one letter at a time
 Key considerations were that it wasn't tailored for English, as this is mostly for foreign words/names
-
-
 """
 
-starternormal = 'SP*'           #shrimple with normal formatting
-starterattached='SW*'           #shrimple with not space at the start
-startercap    = 'SHR*EUFRPL'    #shrimple but capped the first letter
-acronyms      = 'KAPS'          #shrimple but all caps
+
+entry_strokes={
+    "starter normal"  :['KWR*', 'SP*', 'SHREUFRPL', 'SHR*EUFRPL'],           #shrimple with normal formatting
+    "starter attached":['KWR', 'SW*'],      #shrimple with not space at the start
+    "starter cap"     :['TPH*'],            #shrimple but capped the first letter
+    "starter acronyms":['KAPS'],            #shrimple but all caps
+    "starter cap attached":['TPH*FPLT']
+}
+
+
+#dedicated key settings:
 dedicated_key = '+'             #Instead of a starter stroke
+make_words_done_with_dedicated_key_exit_immediately = True
+joiner_strokes={ #If Shrimple automatically exits, maybe you wanna use KWR to stay in Shrimple
+    "left-hand joiner" : "KWR",
+    "right-hand joiner" : "FPL"
+}
 
 
-
+make_starter_letters_have_left_to_right_priority = True
 starter_letter={
     "" : "",
+
+    "^":"",
 
     "S" : "s",
     "STKPW": "z",
     "SKWR": "j",
-    "SKHR": "shr",
+    "SKHR": "shr", #Josiah theory
     "SH" : "sh",
+    "SHR" : "sl", #Josiah theory
     "SR" : "v",
 
     "T" : "t",
     "TK": "d",
     "TKPW":"g",
-    "TKR":"dr", #conflict with tc
     "TP": "f",
     "TPH": "n",
 
     "K":"k",
     "KP":"x",
     "KW":"q",
-    "KWR":"y",
+    "KWH":"y",
+    "KWR":"",
     "KH":"ch",
     "KR":"c",
 
@@ -61,12 +74,15 @@ vowels={
     "A*":"u",
     "AO*":"i",
     "O*":"e",
+    "A*EU":"ay",
+    "O*EU":"oy",
+    "*EU":"y",
 
 
     "A"   :"a",
     "AO"  :"oo",
     "AOE" :"ee",
-    "AOEU":"ie",
+    "AOEU":"i",
     "AOU" :"ue",
     "AE"  :"ea",
     "AEU" :"ai",
@@ -83,22 +99,23 @@ vowels={
     "U"   :"u"
 }
 
-
+make_ender_letters_have_left_to_right_priority = True
 ender_letter={
     "":"",
     "*":"", #asterisk on its own is invalid
-    "*FRPB":"nch",
-    "*FT":"ft",
+
+    "*FT":"st",
+    "*FTD":"sted",
     "*PBG":"nk",
     "*PZ":"h",
-    "PS":"h",
     "*BG":"ck",
+    "*BGD":"cked",
     "*LG":"lk",
     "*T":"th",
+    "*TD":"thed",
     "*S":"st",
     "*SZ":"c",
     "*D":"y",
-    "*DZ":"e",
     "*Z":"z",
 
     "F":"f",
@@ -109,39 +126,42 @@ ender_letter={
     "FRL":"ml",
     "FRBL":"mbl",
     "FP":"ch",
+    "FPL":"",
     "FB":"v",
-    "FT":"st",
+    "FT":"ft",
 
     "R":"r", 
     "RB":"sh", #unless AU to make it rb carb barb
+    "RBGT":"rket",
+    "RBGTS":"rkets",
 
     "P":"p",
     "PB":"n",
     "PBLG":"j",
     "PBG":"ng",
     "PL":"m",
-    #PZ for h?
 
     "B":"b",
     "BG":"k",
+    "BGT":"cket",
+    "BGTS":"ckets",
     "BGS":"x",
 
     "L":"l",
 
     "G":"g",
-    "GT":"xt",
-    "GS":"tion", #Pretty English biased
+    "GT":"ght",
+    "GTS":"ghts",
 
     "T":"t",
-    "TS":"ts",
-    "TZ":"se",
+    "TD":"ted",
 
-    "S":"s", #might be some logic here for c? Realtime uses `SZ` for c
-    "SD":"e",
+    "S":"e", #might be some logic here for c? Realtime uses `SZ` for c
+    "SZ":"se",
 
     "D":"d",
 
-    "Z":"e"
+    "Z":"s",
 
 }
 
@@ -158,7 +178,7 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "TP-PL",    #.
     "TA*B",     #can't remember
     "TPWA*",    #left hand tab
-    "R*",       #left hand return
+    #"R*",       #left hand return
     "KW-PL",    #?
     "TP-BG",    #o
     "KW-BG",    #,
@@ -172,6 +192,9 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "H*N",      #-
     "TPHO*FRL", #normal
     "*",        #delete
+    "PW*FP",    #control backspace
+    "EFBG",     #escape
+    "^*",
     
     #navigation
     "STPH-R",
@@ -180,7 +203,10 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "STPH-B",
     "STPH-BG",
     "STPH-G",
+    "STPH-FR",
+    "STPH-LG",
     "PW-FP",
+    
 ]
 
 left_finger_chords_you_can_use_to_exit_shrimple_with={
@@ -201,7 +227,7 @@ left_finger_chords_you_can_use_to_exit_shrimple_with={
     "STWH", #that
     "STHR", #there
     "STPHR",#there
-    "STKPWHR",#null
+    #"STKPWHR",#null
     "STWR", #null
 
 }
@@ -318,7 +344,7 @@ right_finger_chords_you_can_use_to_exit_shrimple_with={
 
 import re
 
-LONGEST_KEY = 20
+LONGEST_KEY = 40
 
 
 def construct_every_combination(part_of_the_keyboard):
@@ -361,7 +387,19 @@ def construct_every_combination(part_of_the_keyboard):
 
     return every_combination_dictionary
 
+
+if make_starter_letters_have_left_to_right_priority:
+    reversed_starter_letters = {}
+    for entry in starter_letter:
+        reversed_starter_letters = dict({entry:starter_letter[entry]}, **reversed_starter_letters)
+    starter_letter = reversed_starter_letters
 starter_letter=(construct_every_combination(starter_letter))
+
+if make_ender_letters_have_left_to_right_priority:
+    reversed_ender_letters = {}
+    for entry in ender_letter:
+        reversed_ender_letters = dict({entry:ender_letter[entry]}, **reversed_ender_letters)
+    ender_letter = reversed_ender_letters
 ender_letter=(construct_every_combination(ender_letter))
 
 
@@ -407,23 +445,38 @@ def aericks_denumberizer(old_outline):
 
 def lookup(strokes):
 
-    if ((not strokes[0] == starternormal) and
-        (not strokes[0] == startercap) and
-        (not strokes[0] == starterattached) and
-        (not strokes[0] == acronyms) and
-        (not dedicated_key in strokes[0])):
-        raise KeyError
-    
-    output_string=""
+    output_string= ""
 
-    for stroke in strokes:
+
+    for stroke_number, stroke in enumerate(strokes):
+
+        if stroke_number == 0:
+            if not dedicated_key in stroke:
+                stroke_valid = False
+                for entry_stroke_category in entry_strokes.values():
+                    if stroke in entry_stroke_category or strokes in entry_stroke_category:
+                        stroke_valid = True
+                if not stroke_valid:
+                    raise KeyError
+                if len(strokes)==1:
+                    return '{}'
+        else:
+            if not dedicated_key in stroke:
+                stroke_valid = False
+                for entry_stroke_category in entry_strokes.values():
+                    if stroke in entry_stroke_category:
+                        stroke_valid = True
+                if stroke_valid:
+                    raise KeyError
+
         if stroke==dedicated_key:
             raise KeyError
+
 
         if stroke in strokes_you_can_use_to_exit_shrimple_with:
             raise KeyError
 
-        
+
         match = re.fullmatch(r'(#?\^?S?T?K?P?W?H?R?)(A?O?)(\*?\-?E?U?)(F?R?P?B?L?G?T?S?D?Z?)', stroke.replace(dedicated_key,""))
         if match:
 
@@ -433,23 +486,30 @@ def lookup(strokes):
                 raise KeyError
             if match[4] in right_finger_chords_you_can_use_to_exit_shrimple_with:
                 raise KeyError
-        
+
+
+
+
+        if make_words_done_with_dedicated_key_exit_immediately and dedicated_key in strokes[0] and not "^" in strokes[0]:
+            if stroke_number == 0 and not dedicated_key in stroke:
+                raise KeyError
+            elif not stroke_number == 0 and not (match[1] == joiner_strokes['left-hand joiner'] or match[4] == joiner_strokes["right-hand joiner"]):
+                raise KeyError
+
 
 
 
     if (len(strokes)) == 1 and dedicated_key not in strokes[0]:
-        if strokes[0]==starterattached:
+        if strokes[0]==entry_strokes['starterattached']:
             return ("{^}")
         else:
             return("{^ ^}")
 
     for stroke_number in range(len(strokes)):
 
-        if ((not stroke_number ==0 and strokes[stroke_number] == starternormal) or
-            (not stroke_number ==0 and strokes[stroke_number] == starterattached) or
-            (not stroke_number ==0 and strokes[stroke_number] == startercap) or
-            (not stroke_number ==0 and strokes[stroke_number] == acronyms) or
-            (not stroke_number ==0 and dedicated_key in strokes[stroke_number])):
+
+
+        if not stroke_number == 0 and (strokes[stroke_number] in entry_strokes.values() or dedicated_key in strokes[stroke_number]):
             raise KeyError
 
         #match the strokes
@@ -499,12 +559,16 @@ def lookup(strokes):
 
 
 
-    if strokes[0] == startercap:
+    if strokes[0] in entry_strokes['starter cap']:
         return output_string.capitalize()
-    if strokes[0] == acronyms:
+    if strokes[0] in entry_strokes["starter acronyms"]:
         return output_string.upper()
-    if strokes[0] == starterattached:
+    if strokes[0] in entry_strokes['starter attached']:
         return "{^^}"+output_string
+    if strokes[0] in entry_strokes['starter cap attached']:
+        return "{^^}"+output_string.capitalize()
     return output_string
 
-
+#lookup(("+KAPZ","KWROU"))
+#lookup(("KAPS","KWROU"))
+#print(lookup(("KAPS", "WA*TD")))

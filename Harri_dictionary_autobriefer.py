@@ -233,40 +233,64 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
 
 
                 if folding_rules['-m/ → -FR (when PL is taken)']:
-                    #PL/TPHAEUT → -FRPBT
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUT([/X].*)', working_outline)
-                    if match: #^HRAOUPL/TPHAEUT
-                        unchecked_outlines_to_add.append(match[1] + "FRPBT" + match[3])
-                    #PL/TPHAEUBGS→-FRPBGS
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUGS([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRPBGS" + match[3])
+                    if "m" in translated_phrase:
+                        #PL/TPHAEUT → -FRPBT
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUT([/X].*)', working_outline)
+                        if match: #^HRAOUPL/TPHAEUT
+                            unchecked_outlines_to_add.append(match[1] + "FRPBT" + match[3])
+                        #PL/TPHAEUBGS→-FRPBGS
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/TPHAEUGS([/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FRPBGS" + match[3])
 
-                    #PL/KWREUBG → -FRBG
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWR]*[AOEU]+BG([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRBG" + match[3])
+                        #PL/KWREUBG → -FRBG
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWR]*[AOEU]+BG([/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FRBG" + match[3])
 
-                    #PL/KWRAL → -FRL
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWRAOEU]*L([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRL" + match[3])
+                        #PL/KWRAL → -FRL
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWRAOEU]*L([/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FRL" + match[3])
 
-                    #PL/KWRAPBLG → -FRPBLG
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWR]*[AOEU]+PBLG([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRPBLG" + match[3])
+                        #PL/KWRAPBLG → -FRPBLG
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL)\/[KWR]*[AOEU]+PBLG([/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FRPBLG" + match[3])
 
-                    #/PHEUBG    → -FRBG
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(\/PHEUBG)([/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRBG" + match[3])
-                    
-                    #Suffixes
-                    #PL/vPB     → -FRPB
-                    match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?E?U?)PL/[AOEU\*\-]+PB([L?G?T?S?D?Z?/X].*)', working_outline)
-                    if match:
-                        unchecked_outlines_to_add.append(match[1] + "FRPB" + match[2])
+                        #/PHEUBG    → -FRBG
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(\/PHEUBG)([/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FRBG" + match[3])
+                        
+                        #Suffixes
+                        #PL/vPB     → -FRPB
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?E?U?)PL/[AOEU\*\-]+PB([L?G?T?S?D?Z?/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FRPB" + match[2])
+
+
+
+                        #*PL → -FRP
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)\*(E?U?)(PL)(G?T?S?D?Z?[/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + match[2] + "FRP" + match[4])
+
+                        #PL/-BL → -FRBL
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL/-BL)(G?T?S?D?Z?[/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FRBL" + match[3])
+
+                        #*PL/-L → -FRPL
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?A?O?)\*(E?U?)(PL/-L)(G?T?S?D?Z?[/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + match[2] + "FRPL" + match[3])
+
+                        #PL/P-L → -FRPL
+                        match = re.fullmatch(r'(.*[/X]#?\+?\^?S?T?K?P?W?H?R?[AO\-\*EU]+)(PL/P-L)(G?T?S?D?Z?[/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FRPL" + match[3])
+                        
                 if folding_rules['ph → TP-']:
                     #TP*→ TP
                     if "ph" in translated_phrase.lower():
@@ -383,8 +407,6 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                 if folding_rules['v  → -FB']:
                     #Infixes
                     #F  → FB
-                    if "covenant" in translated_phrase:
-                        print("here")
                     if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
                         match = re.fullmatch(r'(.*)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
                         if match:

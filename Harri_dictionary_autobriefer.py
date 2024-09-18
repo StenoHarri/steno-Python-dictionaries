@@ -39,9 +39,13 @@ folding_rules = {
     '^ for words ending in o' : False, #Breaks steno order but I love it
     'inter → EURPBT'    : False,
     'KHUR → KHAOUR'     : False,
+    #'row → -RBL'        : False,   #todo
 
     #HelloChap
-    '/-ddle → -BL'      : False
+    '/-ddle → -BL'      : False,
+
+    #Miff
+    '-nk → -FRPBG'      : False
 }
 
 include_input_dictionaries = False
@@ -478,8 +482,14 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                 if folding_rules['/-ddle → -BL']:
                     match = re.fullmatch(r'(.*[/X]#?\+?S?T?K?P?W?H?R?[AO\-\*EU]+F?R?P?)D/-L(.*)', working_outline)
                     if match:
-                        print(translated_phrase + " " + match[1] + "BL" + match[2])
+                        #print(translated_phrase + " " + match[1] + "BL" + match[2])
                         unchecked_outlines_to_add.append(match[1] + "BL" + match[2])
+
+                if folding_rules['-nk → -FRPBG']:
+                    if "nk" in translated_phrase:
+                        match = re.fullmatch(r'(.*)\*(PBG[TSDZ\/X].*)', working_outline)
+                        if match:
+                            unchecked_outlines_to_add.append(match[1] + "FR" + match[2])
 
                 checked_outlines_to_add.append(working_outline)
                 ###########check for duplicates

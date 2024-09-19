@@ -157,6 +157,7 @@ ender_letter={
 
     "T":"t",
     "TD":"ted",
+    "TZ":"",
 
     "S":"s", #might be some logic here for c? Realtime uses `SZ` for c
     "SZ":"ss",
@@ -277,11 +278,11 @@ right_finger_chords_you_can_use_to_exit_shrimple_with={
 }
 
 left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with=[
-    #"KWR"
+    "KWR"
 ]
 
 right_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with=[
-    #"TZ"
+    "TZ"
 ]
 
 

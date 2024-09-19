@@ -280,6 +280,9 @@ left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with=[
     #"KWR"
 ]
 
+right_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with=[
+    #"TZ"
+]
 
 
 
@@ -501,9 +504,9 @@ def lookup(strokes):
                 raise KeyError
 
             print (match[1])
-            if match[1] in left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with and not stroke_number+1 == len(strokes):
+            if ((match[1] in left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with) or (match[4] in right_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with)) and not stroke_number+1 == len(strokes):
                 futurematch = re.fullmatch(r'(#?\^?S?T?K?P?W?H?R?)(A?O?)(\*?\-?E?U?)(F?R?P?B?L?G?T?S?D?Z?)', strokes[stroke_number+1].replace(dedicated_key,""))
-                if not futurematch[1] in left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with:
+                if not (futurematch[1] in left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with or futurematch[4] in right_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with):
                     raise KeyError
 
 

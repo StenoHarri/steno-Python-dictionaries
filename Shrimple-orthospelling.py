@@ -18,7 +18,7 @@ entry_strokes={
 dedicated_key = '+'             #Instead of a starter stroke
 make_words_done_with_dedicated_key_exit_immediately = True
 joiner_strokes={ #If Shrimple automatically exits, maybe you wanna use KWR to stay in Shrimple
-    "left-hand joiner" : "KWR",
+    "left-hand joiner" : "^SKWR",
     "right-hand joiner" : "FPL"
 }
 
@@ -27,7 +27,7 @@ make_starter_letters_have_left_to_right_priority = True
 starter_letter={
     "" : "",
 
-    "^":"",
+    "^":"{^^}",
 
     "S" : "s",
     "STKPW": "z",
@@ -83,14 +83,14 @@ vowels={
     "A"   :"a",
     "AO"  :"oo",
     "AOE" :"ee",
-    "AOEU":"i",
-    "AOU" :"ue",
+    "AOEU":"i[e]",
+    "AOU" :"u[e]",
     "AE"  :"ea",
-    "AEU" :"ai",
+    "AEU" :"a[e]",
     "AU"  :"au",
 
     "O"   :"o",
-    "OE"  :"oe",
+    "OE"  :"o[e]",
     "OEU" :"oi",
     "OU"  :"ou",
 
@@ -116,12 +116,13 @@ ender_letter={
     "*TD":"thed",
     "*S":"st",
     "*SZ":"c",
-    "*D":"y",
+    "*D":"[y]",
     "*Z":"z",
 
     "F":"f",
     "FRP":"mp",
     "FRPB":"rch",
+    "FRPBG":"nk",
     "FRPL":"mpl",
     "FRB":"mb",
     "FRL":"ml",
@@ -157,8 +158,8 @@ ender_letter={
     "T":"t",
     "TD":"ted",
 
-    "S":"e", #might be some logic here for c? Realtime uses `SZ` for c
-    "SZ":"se",
+    "S":"s", #might be some logic here for c? Realtime uses `SZ` for c
+    "SZ":"ss",
 
     "D":"d",
 
@@ -196,6 +197,8 @@ strokes_you_can_use_to_exit_shrimple_with=[
     "PW*FP",    #control backspace
     "EFBG",     #escape
     "^*",
+    "^S",
+    "TKUPT",
     
     #navigation
     "STPH-R",
@@ -273,6 +276,9 @@ right_finger_chords_you_can_use_to_exit_shrimple_with={
     "LTZ"
 }
 
+left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with=[
+    #"KWR"
+]
 
 
 
@@ -449,6 +455,9 @@ def lookup(strokes):
     output_string= ""
 
 
+
+
+
     for stroke_number, stroke in enumerate(strokes):
 
         if stroke_number == 0:
@@ -469,6 +478,9 @@ def lookup(strokes):
                         stroke_valid = True
                 if stroke_valid:
                     raise KeyError
+                
+
+            
 
         if stroke==dedicated_key:
             raise KeyError
@@ -488,14 +500,20 @@ def lookup(strokes):
             if match[4] in right_finger_chords_you_can_use_to_exit_shrimple_with:
                 raise KeyError
 
+            print (match[1])
+            if match[1] in left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with and not stroke_number+1 == len(strokes):
+                futurematch = re.fullmatch(r'(#?\^?S?T?K?P?W?H?R?)(A?O?)(\*?\-?E?U?)(F?R?P?B?L?G?T?S?D?Z?)', strokes[stroke_number+1].replace(dedicated_key,""))
+                if not futurematch[1] in left_finger_chords_you_can_use_during_the_final_stroke_to_exit_shrimple_with:
+                    raise KeyError
 
 
-
-        if make_words_done_with_dedicated_key_exit_immediately and dedicated_key in strokes[0] and not "^" in strokes[0]:
+        if make_words_done_with_dedicated_key_exit_immediately and dedicated_key in strokes[0]:# and not "^" in strokes[0]:
             if stroke_number == 0 and not dedicated_key in stroke:
                 raise KeyError
             elif not stroke_number == 0 and not (match[1] == joiner_strokes['left-hand joiner'] or match[4] == joiner_strokes["right-hand joiner"]):
                 raise KeyError
+            
+
 
 
 
@@ -539,8 +557,15 @@ def lookup(strokes):
             end_thing=ender_letter[match[4]]
             middle_thing=vowels[match[3].replace("*","")]
 
+        #now do stuff with like [e]:
+        if '[e]' in middle_thing:
+            end_thing+="e"
+            middle_thing=middle_thing.replace("[e]","")
 
-        
+        if '[y]' in end_thing:
+            end_thing+="{^y}"
+            end_thing=end_thing.replace("[y]","")
+
 
         if not stroke_number==0 or (dedicated_key in strokes[0]):
             if "#" in match[1]:
@@ -575,3 +600,6 @@ def lookup(strokes):
 #lookup(("+KAPZ","KWROU"))
 #lookup(("KAPS","KWROU"))
 #print(lookup(("KAPS", "WA*TD")))
+#print(lookup(("KAPS", "WA*TD", "KWRAL")))
+#print(lookup(("KAPS", "WA*TD", "KWRAL", "PAL")))
+

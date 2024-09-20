@@ -473,7 +473,7 @@ def lookup(strokes):
                 if not stroke_valid:
                     raise KeyError
                 if len(strokes)==1:
-                    return '{}'
+                    return '{Shrimple}'
         else:
             if not dedicated_key in stroke:
                 stroke_valid = False

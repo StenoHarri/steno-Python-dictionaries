@@ -45,7 +45,7 @@ starter_letter={
 
     "K":"k",
     "KP":"x",
-    "KW":"q",
+    "KW":"qu",
     "KWH":"y",
     "KWR":"",
     "KH":"ch",

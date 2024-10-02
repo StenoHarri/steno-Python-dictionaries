@@ -123,10 +123,10 @@ ender_letter={
     "FRP":"mp",
     "FRPB":"rch",
     "FRPBG":"nk",
-    "FRPL":"mpl",
+    "FRPL":"mpl[e]",
     "FRB":"mb",
-    "FRL":"ml",
-    "FRBL":"mbl",
+    "FRL":"ml[e]",
+    "FRBL":"mbl[e]",
     "FP":"ch",
     "FPL":"",
     "FB":"v",
@@ -562,8 +562,9 @@ def lookup(strokes):
             middle_thing=vowels[match[3].replace("*","")]
 
         #now do stuff with like [e]:
-        if '[e]' in middle_thing:
-            end_thing+="e"
+        if '[e]' in middle_thing or '[e]' in end_thing:
+            end_thing=end_thing.replace("[e]","") + "e"
+
             middle_thing=middle_thing.replace("[e]","")
 
         if '[y]' in end_thing:

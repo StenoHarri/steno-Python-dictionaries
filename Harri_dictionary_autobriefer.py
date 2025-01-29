@@ -413,7 +413,7 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                     #F  → FB
                     if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
                         #keep asterisk
-                        match = re.fullmatch(r'(.*)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
+                        match = re.fullmatch(r'(.*?)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
                         if match:
                             unchecked_outlines_to_add.append(match[1] + match[2].replace("*","") + "FB"  + match[3])
                 if folding_rules['z → STKPW-']:

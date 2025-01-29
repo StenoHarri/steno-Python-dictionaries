@@ -411,8 +411,7 @@ def dictionary_briefer(dictionary_file, briefed_dictionary = {}, folding_rules =
                 if folding_rules['v  → -FB']:
                     #Infixes
                     #F  → FB
-                    if "v" in translated_phrase.lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
-                        #keep asterisk
+                    if "v" in translated_phrase[1:].lower() and not "rv" in translated_phrase.lower() and not " " in translated_phrase:
                         match = re.fullmatch(r'(.*?)([AOEU*-]+)F([LGTSDZ\/X].*)', working_outline)
                         if match:
                             unchecked_outlines_to_add.append(match[1] + match[2].replace("*","") + "FB"  + match[3])
